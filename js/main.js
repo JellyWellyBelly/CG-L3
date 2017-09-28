@@ -1,4 +1,3 @@
-
 var camera, scene, renderer;
 
 function render(){
@@ -26,16 +25,15 @@ function createScene() {
 	scene = new THREE.Scene();
 
 	scene.add(new THREE.AxisHelper(10));
-
+	scene.add(createCar(0,0,0, 10))
 }
 
 function createCamera() {
 	'use strict';
 	camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 1, 1000)
 
-	camera.position.x = 50;
-	camera.position.y = 50;
-	camera.position.z = 50;
+	camera.position.set(50, 50, 50);
+
 	camera.lookAt(scene.position);
 }
 
@@ -51,8 +49,11 @@ function init() {
 	createScene();
 	createCamera();
 
+	window.addEventListener("resize", onResize);
+
 	render();
 
-	window.addEventListener("resize", onResize);
+	var controls = new THREE.OrbitControls(camera);
+    controls.addEventListener( 'change', render );
 	
 }
