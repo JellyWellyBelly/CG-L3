@@ -60,6 +60,7 @@ function animate() {
 	requestAnimationFrame(animate);
 }
 
+
 function init() {
 	'use strict';
 
@@ -72,7 +73,13 @@ function init() {
 
 	createScene();
 	createCamera();
+	
+	scene.add(create_table(0, -9.5, 0, 1000));
 
+	createCar();
+	
+	addSpotLight(-100, 100, 0);
+	
 	render();	
 
 	window.addEventListener("resize", onResize);
