@@ -39,10 +39,11 @@ function createCar(x, y, z, size_in) {
 function addCarBody(obj, x, y, z) {
 	'use strict';
 
-	geometry = new THREE.SphereGeometry(size, 30, 30, 0, Pi(), (-Pi()/2));
-	material = new THREE.MeshBasicMaterial({color: 0xff4411, wireframe: true});
+	geometry = new THREE.SphereGeometry(size, 30, 30, 0, Pi());
+	material = new THREE.MeshBasicMaterial({color: 0xff4411});
 
 	mesh = new THREE.Mesh(geometry, material);
+	mesh.rotateX(-Pi()/2);
 	mesh.position.set(x, y, z);
 
 	obj.add(mesh);
@@ -51,8 +52,8 @@ function addCarBody(obj, x, y, z) {
 function addCarBase(obj, x, y, z) { 
 	'use strict';
 
-	geometry = new THREE.CircleGeometry(size, 30);
-	material = new THREE.MeshBasicMaterial({color: 0x007700, wireframe: true});
+	geometry = new THREE.CircleGeometry(size, 100);
+	material = new THREE.MeshBasicMaterial({color: 0x007700});
 
 	mesh = new THREE.Mesh(geometry, material);
 	mesh.position.set(x, y, z);
@@ -65,7 +66,7 @@ function addRoundWheel(obj, x, y, z) {
 	'use strict';
 	
 	geometry = new THREE.SphereGeometry((size/4), 15, 15);
-	material = new THREE.MeshBasicMaterial({color: 0x0044aa, wireframe: true});
+	material = new THREE.MeshBasicMaterial({color: 0x0044aa});
 
 	mesh = new THREE.Mesh(geometry, material);
 	mesh.position.set(x, y, z);
@@ -77,7 +78,7 @@ function addMouth(obj, x, y, z) {
 	'use strict';
 
 	geometry = new THREE.SphereGeometry((size/3), 15, 15, 0, Pi());
-	material = new THREE.MeshBasicMaterial({color: 0xff0055, wireframe: true});
+	material = new THREE.MeshBasicMaterial({color: 0xff0055});
 
 	mesh = new THREE.Mesh(geometry, material);
 	mesh.rotateZ(Pi()/4);
@@ -91,7 +92,7 @@ function addEye(obj, x, y, z) {
 	'use strict';
 	
 	geometry = new THREE.SphereGeometry((size/6), 10, 10);
-	material = new THREE.MeshBasicMaterial({color: 0x888888, wireframe: true});
+	material = new THREE.MeshBasicMaterial({color: 0x888888});
 
 	mesh = new THREE.Mesh(geometry, material);
 	mesh.position.set(x, y, z);
@@ -103,7 +104,7 @@ function addEar(obj, x, y, z) {
 	'use strict';
 
 	geometry = new THREE.CylinderGeometry(size/3, size/3, size/20, 50, 1);
-	material = new THREE.MeshBasicMaterial({color: 0xf488de, wireframe: true});
+	material = new THREE.MeshBasicMaterial({color: 0xf488de});
 
 	mesh = new THREE.Mesh(geometry, material);
 	mesh.rotateZ(Pi()/2);
@@ -116,7 +117,7 @@ function addAntennaBody(obj, x, y, z) {
 	'use strict';
 
 	geometry = new THREE.BoxGeometry(size/2, size/20, size/20);
-	material = new THREE.MeshBasicMaterial({color: 0xbbbb00, wireframe: true});
+	material = new THREE.MeshBasicMaterial({color: 0xbbbb00});
 
 	mesh = new THREE.Mesh(geometry, material);
 	mesh.rotateZ(3*Pi()/4);
@@ -129,7 +130,7 @@ function addAntennaTip(obj, x, y, z) {
 	'use strict';
 
 	geometry = new THREE.SphereGeometry(size/12, 8, 8);
-	material = new THREE.MeshBasicMaterial({color: 0x55dd00, wireframe: true});
+	material = new THREE.MeshBasicMaterial({color: 0x55dd00});
 
 	mesh = new THREE.Mesh(geometry, material);
 	mesh.rotateZ(3*Pi()/4);
