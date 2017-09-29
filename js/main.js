@@ -1,5 +1,5 @@
 var camera, scene, renderer;
-var scene_size = 1200
+var scene_size = 600
 var window_ratio = window.innerWidth / window.innerHeight;
 
 
@@ -35,7 +35,10 @@ function createScene() {
 	scene = new THREE.Scene();
 
 	scene.add(new THREE.AxisHelper(10));
-	scene.add(createCar(0,0,0, 300));
+	scene.add(createCarRound(0,0,0, 10));
+	scene.add(create_table(0, -9.5, 0, 1000));
+	createCar(30, 0, 30);
+	addSpotLight(-100, 100, 0);
 }
 
 function createCamera() {
@@ -73,12 +76,6 @@ function init() {
 
 	createScene();
 	createCamera();
-	
-	scene.add(create_table(0, -9.5, 0, 1000));
-
-	createCar();
-	
-	addSpotLight(-100, 100, 0);
 	
 	render();	
 

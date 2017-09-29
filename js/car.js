@@ -159,8 +159,6 @@ function createCar(x, y, z) {
 	addCarWingSup(car, 8, 0.75, -1);
 	addCarWing(car, 8, 1, 0);
 
-
-
 	car.castShadow = true;
 	car.add(mesh);
 	car.position.set(x, y, z);

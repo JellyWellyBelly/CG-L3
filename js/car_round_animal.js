@@ -2,7 +2,7 @@ var car;
 var material, mesh, geometry;
 var size = 10;
 
-function createCar(x, y, z, size_in) {
+function createCarRound(x, y, z, size_in) {
 	'use strict';
 
 	size = size_in;
