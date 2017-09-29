@@ -19,7 +19,7 @@ function triangleGeometry(comp, alt, width) {
 
 	geometry = new THREE.ExtrudeGeometry( triangle, extrudeSettings );
 	geometry.center();
-	material = new THREE.MeshBasicMaterial( { color: 0xff0ff0 } );
+	material = new THREE.MeshStandardMaterial( { color: 0xff0ff0 } );
 	mesh = new THREE.Mesh( geometry, material ) ;
 
 	return mesh;
@@ -104,7 +104,7 @@ function addCarChassi(obj, x, y, z) {
 	'use strict';
 
 	geometry = new THREE.BoxGeometry(6, 0.5, 2);
-	material = new THREE.MeshBasicMaterial( { color: 0xff0ff0 } );
+	material = new THREE.MeshStandardMaterial( { color: 0xff0ff0 } );
 	mesh = new THREE.Mesh(geometry, material);
 	mesh.position.set(x, y, z);
 
@@ -117,7 +117,7 @@ function addCarWheel(obj, x, y, z) {
 	'use strict';
 
 	geometry = new THREE.TorusGeometry(0.5, 0.2, 10, 75);
-	material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+	material = new THREE.MeshStandardMaterial( { color: 0x000000 } );
 	mesh = new THREE.Mesh(geometry, material);
 	mesh.position.set(x, y, z);
 
@@ -130,7 +130,6 @@ function createCar(x, y, z) {
 
 	car = new THREE.Object3D();
 
-	material = new THREE.MeshBasicMaterial( { color: 0xff0ff0 } );
 
 	addCarWheel(car, 2, 0, 2);
 	addCarWheel(car, 2, 0, -2);
@@ -142,11 +141,20 @@ function createCar(x, y, z) {
 	addCarEixoFront(car, 2, 0, -1.5);
 	addCarEixoBack(car, 7.75, 0, 1.75);
 	addCarEixoBack(car, 7.75, 0, -1.75);
+
+	//triangulo parachoques
 	addTriangleGeometry(car, 1, 0.5, 4, 0, -0.25, 0, 0, 0, 0); // addTriangleGeometry(obj, comprimento, altura, profundidade, posx, posy, posz, rotx, roty, rotz)
+	
+	//triangulo condutor 
 	addTriangleGeometry(car, 4.75, 0.75, 2, 2.25, 0.25, 0, 0, 0, 0);
+
+	//triangulo trazeiro
 	addTriangleGeometry(car, 1.5, 0.75, 3, 7, 0.25, 0, 0, Math.PI, 0);
+
+	//triangulos laterais
 	addTriangleGeometry(car, 4.75, 0.5, 0.5, 2.25, -0.25, -1.25, -Math.PI/2,0,0);
 	addTriangleGeometry(car, 4.75, 0.5, 0.5, 2.25, -0.25, 1.25, Math.PI/2,0,0);
+
 	addCarWingSup(car, 8, 0.75, 1);
 	addCarWingSup(car, 8, 0.75, -1);
 	addCarWing(car, 8, 1, 0);
