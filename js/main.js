@@ -14,19 +14,19 @@ function render(){
 function onResize() {
 	'use strict';
 
-	// renderer.setSize(window.innerWidth, window.innerHeight);
+	renderer.setSize(window.innerWidth, window.innerHeight);
 
-	// if (window.innerHeight > 0 && window.innerWidth > 0) { // dividing by zero error preventer
+	if (window.innerHeight > 0 && window.innerWidth > 0) { // dividing by zero error preventer
 
-	// 	window_ratio = renderer.getSize().width / renderer.getSize().height; //updating window ratio
+		window_ratio = renderer.getSize().width / renderer.getSize().height; //updating window ratio
 
-	// 	camera.left = - scene_size * window_ratio; //left
-	// 	camera.right = scene_size * window_ratio; //right
-	// 	camera.top = scene_size; //top
-	// 	camera.bottom = - scene_size; //bottom
+		camera.left = - scene_size * window_ratio; //left
+		camera.right = scene_size * window_ratio; //right
+		camera.top = scene_size; //top
+		camera.bottom = - scene_size; //bottom
 
-	// 	camera.updateProjectionMatrix(); //update camera
-	// }
+		camera.updateProjectionMatrix(); //update camera
+	}
 }
 
 function createScene() {
