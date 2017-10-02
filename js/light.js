@@ -1,17 +1,16 @@
-function addSpotLight(x, y, z) {
+function directionalLight(x, y, z) {
 	
-	var spotLight = new THREE.SpotLight( 0xffffff );
-	spotLight.position.set( x, y, z);
+	var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
 
-	spotLight.castShadow = true;
+	directionalLight.castShadow = true;
 
-	spotLight.shadow.mapSize.width = 1024;
-	spotLight.shadow.mapSize.height = 1024;
+	directionalLight.shadow.mapSize.width = 1024;
+	directionalLight.shadow.mapSize.height = 1024;
 
-	spotLight.shadow.camera.near = 500;
-	spotLight.shadow.camera.far = 4000;
-	spotLight.shadow.camera.fov = 30;
+	directionalLight.shadow.camera.near = 5000;
+	directionalLight.shadow.camera.far = 4000;
+	directionalLight.shadow.camera.fov = 1000;
 
-	scene.add( spotLight );
+	return directionalLight;
 
 }
