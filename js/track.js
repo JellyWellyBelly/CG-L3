@@ -7,30 +7,30 @@ function create_track() {
 
 	track = new THREE.Object3D();
 
-	addLine(-450, -10, 350, 700, 'v');
-	addLine(-400, -10, 350, 700, 'v');
-	addLine(-300, -10, -150, 200, 'v');
-	addLine(-250, -10, -150, 200, 'v');
-	addLine(-200, -10, -100, 500, 'h');
-	addLine(-200, -10, -50, 500, 'h');
-	addLine(350, -10, 100, 100, 'v');
-	addLine(400, -10, 100, 100, 'v');
-	addCircle(-350, -10, -350, -Math.PI / 2, Math.PI / 2, 50);
-	addCircle(-350, -10, -350, -Math.PI / 2, Math.PI / 2, 100);
-	addCircle(-200, -10, -150, Math.PI / 2, Math.PI, 50);
-	addCircle(-200, -10, -150, Math.PI / 2, Math.PI, 100);
-	addCircle(300, -10, 0, -Math.PI / 2, 0, 50);
-	addCircle(300, -10, 0, -Math.PI / 2, 0, 100);
-	addCircle(250, -10, 100, Math.PI, 3 * Math.PI / 2, 100);
-	addCircle(250, -10, 100, Math.PI, 3 * Math.PI / 2, 150);
-	addCircle(250, -10, 350, 0, Math.PI / 2, 100);
-	addCircle(250, -10, 350, 0, Math.PI / 2, 150);
-	addCircle(50, -10, 350, Math.PI / 2, 3 * Math.PI / 2, 50);
-	addCircle(50, -10, 350, Math.PI / 2, 3 * Math.PI / 2, 100);
-	addCircle(-150, -10, 350, -Math.PI / 2, Math.PI / 2, 100);
-	addCircle(-150, -10, 350, -Math.PI / 2, Math.PI / 2, 150);
-	addCircle(-350, -10, 350, Math.PI / 2, 3 * Math.PI / 2, 50);
-	addCircle(-350, -10, 350, Math.PI / 2, 3 * Math.PI / 2, 100);
+	addLine(-450, 0.5, 350, 700, 'v');
+	addLine(-400, 0.5, 350, 700, 'v');
+	addLine(-300, 0.5, -150, 200, 'v');
+	addLine(-250, 0.5, -150, 200, 'v');
+	addLine(-200, 0.5, -100, 500, 'h');
+	addLine(-200, 0.5, -50, 500, 'h');
+	addLine(350, 0.5, 100, 100, 'v');
+	addLine(400, 0.5, 100, 100, 'v');
+	addCircle(-350, 0.5, -350, -Math.PI / 2, Math.PI / 2, 50);
+	addCircle(-350, 0.5, -350, -Math.PI / 2, Math.PI / 2, 100);
+	addCircle(-200, 0.5, -150, Math.PI / 2, Math.PI, 50);
+	addCircle(-200, 0.5, -150, Math.PI / 2, Math.PI, 100);
+	addCircle(300, 0.5, 0, -Math.PI / 2, 0, 50);
+	addCircle(300, 0.5, 0, -Math.PI / 2, 0, 100);
+	addCircle(250, 0.5, 100, Math.PI, 3 * Math.PI / 2, 100);
+	addCircle(250, 0.5, 100, Math.PI, 3 * Math.PI / 2, 150);
+	addCircle(250, 0.5, 350, 0, Math.PI / 2, 100);
+	addCircle(250, 0.5, 350, 0, Math.PI / 2, 150);
+	addCircle(50, 0.5, 350, Math.PI / 2, 3 * Math.PI / 2, 50);
+	addCircle(50, 0.5, 350, Math.PI / 2, 3 * Math.PI / 2, 100);
+	addCircle(-150, 0.5, 350, -Math.PI / 2, Math.PI / 2, 100);
+	addCircle(-150, 0.5, 350, -Math.PI / 2, Math.PI / 2, 150);
+	addCircle(-350, 0.5, 350, Math.PI / 2, 3 * Math.PI / 2, 50);
+	addCircle(-350, 0.5, 350, Math.PI / 2, 3 * Math.PI / 2, 100);
 
 	return track;
 }
