@@ -35,11 +35,13 @@ function createScene() {
 	scene = new THREE.Scene();
 
 	scene.add(new THREE.AxisHelper(10));
-	scene.add(createCarRound(0,0,0, 10));
+	scene.add(createCarRound(0,20,0, 10));
 	scene.add(create_table(0, -9.5, 0, 1000));
-	createCar(30, 0, 30);
-	addSpotLight(-100, 100, 0);
+	createCar(30, 0, 30, 3);
+	scene.add(create_track());
+	scene.add(directionalLight(500, 1000, 0));
 }
+
 
 function createCamera() {
 	'use strict';
