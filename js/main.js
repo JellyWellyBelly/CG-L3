@@ -103,37 +103,3 @@ function init() {
 	var controls = new THREE.OrbitControls(camera);
 	controls.addEventListener( 'change', render );
 }
-
-
-
-
-
-
-
-
-
-//testing
-function changeVelocity(e) {
-	'use strict';
-
-	switch(e.keyCode) {
-	case 65: //A
-	case 97: //a
-		scene.traverse(function (node) {
-			if (node instanceof THREE.Mesh) {
-				node.material.wireframe = !node.material.wireframe;
-			}
-		});
-		break;
-	case 83: //S
-	case 115: //s
-		car.userData.backwards += 0.1;
-		break;
-	}
-}
-
-//testing
-function update() {
-	car.rotation.set(car.rotation.x + car.userData.backwards,0,0);
-	car.userData.backwards = 0;
-}
