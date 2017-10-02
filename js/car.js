@@ -125,7 +125,7 @@ function addCarWheel(obj, x, y, z) {
 }
 
 
-function createCar(x, y, z) {
+function createCar(x, y, z, size) {
 	'use strict';
 
 	car = new THREE.Object3D();
@@ -162,6 +162,7 @@ function createCar(x, y, z) {
 	car.castShadow = true;
 	car.add(mesh);
 	car.position.set(x, y, z);
-
+	car.scale.set(size, size, size);
+	
 	scene.add(car);
 }
