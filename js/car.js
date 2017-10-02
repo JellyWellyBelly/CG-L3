@@ -164,5 +164,5 @@ function createCar(x, y, z, size) {
 	car.position.set(x, y, z);
 	car.scale.set(size, size, size);
 	
-	scene.add(car);
+	return car;
 }
