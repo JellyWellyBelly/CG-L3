@@ -19,11 +19,27 @@ function onResize() {
 	if (window.innerHeight > 0 && window.innerWidth > 0) { // dividing by zero error preventer
 
 		window_ratio = renderer.getSize().width / renderer.getSize().height; //updating window ratio
+		
+		if (window_ratio > 1) { 
 
-		camera.left = - scene_size * window_ratio; //left
-		camera.right = scene_size * window_ratio; //right
-		camera.top = scene_size; //top
-		camera.bottom = - scene_size; //bottom
+			camera.left = - scene_size * window_ratio; //left
+			camera.right = scene_size * window_ratio; //right
+			camera.top = scene_size; //top
+			camera.bottom = - scene_size; //bottom
+		}
+
+		else {
+
+			// ratio must be greater than 1 so that a rectangular window maintains the scene's ratio
+			// this window ratio is the inverse of the window ratio above
+			// new_ratio = 1 / old_ratio
+			window_ratio = renderer.getSize().height / renderer.getSize().width; 
+
+			camera.left = - scene_size; //left
+			camera.right = scene_size; //right
+			camera.top = scene_size * window_ratio; //top
+			camera.bottom = - scene_size * window_ratio; //bottom
+		}
 
 		camera.updateProjectionMatrix(); //update camera
 	}
@@ -46,11 +62,12 @@ function createScene() {
 function createCamera() {
 	'use strict';
 
-	camera = new THREE.OrthographicCamera(-scene_size * window_ratio, //left
-										   scene_size * window_ratio, //right
+	camera = new THREE.OrthographicCamera(-scene_size, //left
+										   scene_size, //right
 										   scene_size, //top
 										  -scene_size, //bottom
 										   0.01, 2000);
+	onResize();
 
 	camera.position.set(0, 500, 0);
 
@@ -59,7 +76,7 @@ function createCamera() {
 
 function animate() {
 	
-	//update();
+	update(); //testing
 	render();
 
 	requestAnimationFrame(animate);
@@ -85,4 +102,38 @@ function init() {
 
 	var controls = new THREE.OrbitControls(camera);
 	controls.addEventListener( 'change', render );
+}
+
+
+
+
+
+
+
+
+
+//testing
+function changeVelocity(e) {
+	'use strict';
+
+	switch(e.keyCode) {
+	case 65: //A
+	case 97: //a
+		scene.traverse(function (node) {
+			if (node instanceof THREE.Mesh) {
+				node.material.wireframe = !node.material.wireframe;
+			}
+		});
+		break;
+	case 83: //S
+	case 115: //s
+		car.userData.backwards += 0.1;
+		break;
+	}
+}
+
+//testing
+function update() {
+	car.rotation.set(car.rotation.x + car.userData.backwards,0,0);
+	car.userData.backwards = 0;
 }
