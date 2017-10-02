@@ -12,7 +12,7 @@ function create_table(x, y, z, size) {
 	table = new THREE.Object3D();
 
 	geometry = new THREE.BoxGeometry(board_size, board_size / 100, board_size);
-	material = new THREE.MeshBasicMaterial( {color: 0x996600, wireframe: true});
+	material = new THREE.MeshBasicMaterial( {color: 0x996600});
 	mesh = new THREE.Mesh(geometry, material);
 	table.add(mesh);
 	table.position.set(x, y, z);
