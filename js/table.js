@@ -1,21 +1,20 @@
-var table;
+'use strict';
 
-var material, geometry, mesh;
+class Table {
 
-var board_size = 1000;
+  constructor(size) {
+    this._size = size;
+  }
 
-function create_table(x, y, z, size) {
-	'use strict';
+  create_table(x, y, z) {
 
-	board_size = size;
+  	var geometry = new THREE.BoxGeometry(this._size, this._size / 100, this._size);
+  	var material = new THREE.MeshBasicMaterial( {color: 0x672c77});
+  	var table = new THREE.Mesh(geometry, material);
+  	
+  	table.position.set(0, -9.5, 0);
 
-	table = new THREE.Object3D();
-
-	geometry = new THREE.BoxGeometry(board_size, board_size / 100, board_size);
-	material = new THREE.MeshBasicMaterial( {color: 0x996600});
-	mesh = new THREE.Mesh(geometry, material);
-	table.add(mesh);
-	table.position.set(x, y, z);
-
-	return table;
+  	return table;
+  }
 }
+

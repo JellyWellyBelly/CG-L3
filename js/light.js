@@ -1,4 +1,13 @@
-function directionalLight(x, y, z) {
+
+'use strict';
+
+class DirectionalLight {
+
+  constructor() {
+    
+  }
+
+  create_light(x, y, z) {
 	
 	var directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
 
@@ -13,4 +22,7 @@ function directionalLight(x, y, z) {
 
 	return directionalLight;
 
+  }
+  
 }
+

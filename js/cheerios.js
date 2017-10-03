@@ -1,18 +1,46 @@
-var cheerio;
+// class Cheerios {
 
-var material, geometry;
 
-function create_cheerio() {
-	'use strict';
-	geometry = new THREE.TorusGeometry(2, 1, 15, 15, Math.PI * 2);
+//   constructor() {
+//   	var geometry = new THREE.TorusGeometry(2, 1.5, 15, 15, Math.PI * 2);
 
-	material = new THREE.MeshStandardMaterial( {color: 0xffcc00});
+// 	var material = new THREE.MeshStandardMaterial({color: 0xf2c763});
 
-	cheerio = new THREE.Mesh(geometry, material);
+// 	var cheerio = new THREE.Mesh(geometry, material);
 
-	cheerio.rotation.x = Math.PI / 2;
+// 	cheerio.rotation.x = Math.PI / 2;
 
+// 	cheerio.castShadow = true;
+
+//   	this._mesh = cheerio;
+ 	
+//  	}
+
+// 	get mesh() {
+// 		return this._mesh;
+// 	}
+// }
+
+class Cheerios extends THREE.Mesh{
+
+  constructor() { 
+  	
+  	super();
+  }
+
+  getCheerio() {
+
+  	var geometry = new THREE.TorusGeometry(2, 1.5, 15, 15, Math.PI * 2);
+  	var material = new THREE.MeshStandardMaterial({color: 0xf2c763});
+  	var cheerio = new THREE.Mesh(geometry, material);
+  	
+  	cheerio.rotation.x = Math.PI / 2;
 	cheerio.castShadow = true;
 
-	return cheerio;
+  	return cheerio;
+  }
+
+  isCheerio() {
+  	return true;
+  }
 }
