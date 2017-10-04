@@ -52,9 +52,11 @@ function createScene() {
 	var table = new Table(1000);
 	var light = new DirectionalLight();
 	var track = new Track();
+	var mouse_Car = new CarMouse(10);
 
 	scene.add(new THREE.AxisHelper(10));
-	scene.add(createCarRound(0,20,0, 10));
+	scene.add(mouse_Car.getMesh(0, 20, 0));
+	scene.add(mouse_Car.getMesh(0, 50, 0));
 	scene.add(table.create_table());
 	scene.add(createCar(30, 0, 30, 3));
 	scene.add(track.create_track());
