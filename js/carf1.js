@@ -66,7 +66,7 @@ class CarF1 {
 
 		var geometry = new THREE.ExtrudeGeometry( triangle, extrudeSettings );
 		geometry.center();
-		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0 } );
+		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0, wireframe: false } );
 		var mesh = new THREE.Mesh( geometry, material ) ;
 
 		return mesh;
@@ -90,7 +90,7 @@ class CarF1 {
 	addCarWing(obj, x, y, z) {
 
 		var geometry = new THREE.BoxGeometry(1, 0.25, 5);
-		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0 } );
+		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0, wireframe: false } );
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.position.set(x, y, z);
 
@@ -101,7 +101,7 @@ class CarF1 {
 	addCarWingSup(obj, x, y, z) {
 
 		var geometry = new THREE.CylinderGeometry(0.1, 0.1, 0.5, 30);
-		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0 } );
+		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0, wireframe: false } );
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.position.set(x, y, z);
 
@@ -112,7 +112,7 @@ class CarF1 {
 	addCarEixoFront(obj, x, y, z) {
 
 		var geometry = new THREE.CylinderGeometry(0.25, 0.25, 1, 10);
-		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0 } );
+		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0, wireframe: false } );
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.position.set(x, y, z);
 
@@ -123,7 +123,7 @@ class CarF1 {
 	addCarEixoBack(obj, x, y, z) {
 
 		var geometry = new THREE.CylinderGeometry(0.25, 0.25, 0.5, 10);
-		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0 } );
+		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0, wireframe: false } );
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.position.set(x, y, z);
 
@@ -134,7 +134,7 @@ class CarF1 {
 	addCarBack(obj, x, y, z) {
 
 		var geometry = new THREE.BoxGeometry(1.5, 0.5, 3);
-		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0 } );
+		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0, wireframe: false } );
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.position.set(x, y, z);
 
@@ -145,7 +145,7 @@ class CarF1 {
 	addCarChassi(obj, x, y, z) {
 
 		var geometry = new THREE.BoxGeometry(6, 0.5, 2);
-		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0 } );
+		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0, wireframe: false } );
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.position.set(x, y, z);
 
@@ -156,7 +156,7 @@ class CarF1 {
 	addCarWheel(obj, x, y, z) {
 
 		var geometry = new THREE.TorusGeometry(0.5, 0.2, 10, 75);
-		var material = new THREE.MeshStandardMaterial( { color: 0x000000 } );
+		var material = new THREE.MeshStandardMaterial( { color: 0x000000, wireframe: false } );
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.position.set(x, y, z);
 

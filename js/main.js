@@ -4,7 +4,6 @@ var scene_size = 600
 var window_ratio = window.innerWidth / window.innerHeight;
 
 
-
 function render(){
 	'use strict';
 	renderer.render(scene, camera);
@@ -54,6 +53,7 @@ function createScene() {
 	var track = new Track();
 	var mouse_Car = new CarMouse(10);
 	var carf1 = new CarF1(3);               // size é um multiplicador do tamanho original (=10)
+	var orange1 = new Orange(10);
 
 	scene.add(new THREE.AxisHelper(10));
 	scene.add(mouse_Car.getMesh(0, 20, 0));
@@ -62,6 +62,7 @@ function createScene() {
 	scene.add(carf1.getMesh(30, 50, 30));
 	scene.add(track.create_track());
 	scene.add(light.create_light(500, 1000, 0));
+	scene.add(orange1.create_orange(50, 10, 500));
 }
 
 
