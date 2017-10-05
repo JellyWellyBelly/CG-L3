@@ -1,13 +1,26 @@
+//Made by script wizards
 
 var camera, scene, renderer;
-var scene_size = 600
-var window_ratio = window.innerWidth / window.innerHeight;
+var window_ratio;
 
+var scene_size = 600;
+var scene_elements = [];
 
-function render(){
+var carMouse;   //so the eventListener know wich car to update the flags
+
+function render() {
 	'use strict';
 	renderer.render(scene, camera);
 }
+
+function update() {
+	for (var i = scene_elements.length - 1; i >= 0; i--) {
+		elem = scene_elements[i];
+		elem.update();
+	}
+}
+
+
 
 function onResize() {
 	'use strict';
@@ -47,27 +60,29 @@ function createScene() {
 	'use strict';
 
 	scene = new THREE.Scene();
+	carMouse = new CarMouse(10, 0, 0, 0);
 
 	var table = new Table(1000);
 	var light = new DirectionalLight();
 	var track = new Track();
-	var mouse_Car = new CarMouse(10);
-	var carf1 = new CarF1(3);               // size é um multiplicador do tamanho original (=10)
+	var carF1 = new CarF1(3);               // size é um multiplicador do tamanho original (+/- 10)
 	var orange1 = new Orange(10);
 	var orange2 = new Orange(15);
 	var orange3 = new Orange(20);
+	
+	scene_elements.push(carMouse);   // testing
+	//scene_elements.push(carF1);   	  // testing
 
-	scene.add(new THREE.AxisHelper(10));
-	scene.add(mouse_Car.getMesh(0, 0.5, 0));
+	scene.add(new THREE.AxisHelper(10));	// to be removed
+	scene.add(carMouse.getMesh());
 	scene.add(table.create_table());
-	scene.add(carf1.getMesh(30, 0.5, 30));
+	scene.add(carF1.getMesh(30, 0.5, 30));
 	scene.add(track.create_track());
 	scene.add(light.create_light(500, 1000, 0));
 	scene.add(orange1.create_orange(50, 0, 300));
 	scene.add(orange2.create_orange(100, 0, -200));
 	scene.add(orange3.create_orange(-200, 0, 100));
 }
-
 
 function createCamera() {
 	'use strict';
@@ -88,20 +103,42 @@ function onKeyDown(e) {
 	'use strict';
 
 	switch (e.keyCode) {
-	case 65: //A
-	case 97: //a
-		scene.traverse(function (node) {
-			if (node instanceof THREE.Mesh) {
-				node.material.wireframe = !node.material.wireframe;
-			}
-		});
-		break;
+		case 38: // *up arrow key*
+			carMouse.setAcc(300);
+			break;
+
+		case 40: // *down arrow key*
+			carMouse.setAcc(-400);
+			break;
+
+		case 39: // *right arrow key*
+			carMouse.setTurningAngle(-Math.PI/60);
+			break;
+
+		case 37: // *left arrow key*
+			carMouse.setTurningAngle(Math.PI/60);
+			break;
+	}
+}
+
+function onKeyUp(e) {
+	'use strict';
+
+	switch (e.keyCode) {
+		case 38: // *up arrow key*
+		case 40: // *down arrow key*
+			carMouse.setAcc(0);
+			break;
+
+		case 37: // *up arrow key*
+		case 39: // *down arrow key*
+			carMouse.setTurningAngle(0);
+			break;
 	}
 }
 
 function init() {
 	'use strict';
-
 
 	renderer = new THREE.WebGLRenderer({antialias: true});
 
@@ -115,16 +152,17 @@ function init() {
 	render();	
 
 	window.addEventListener("resize", onResize);
-	window.addEventListener("keypress", onKeyDown);	
+	window.addEventListener("keydown", onKeyDown);
+	window.addEventListener("keyup", onKeyUp);
 
-	var controls = new THREE.OrbitControls(camera);
-	controls.addEventListener( 'change', render );
+	//var controls = new THREE.OrbitControls(camera);
+	//controls.addEventListener( 'change', render );
 }
 
 
 function animate() {
 	
-	//update(); //testing
+	update(); //testing
 	render();
 
 	requestAnimationFrame(animate);
