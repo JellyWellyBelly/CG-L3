@@ -1,7 +1,7 @@
 'use strict';
 
 class CarF1 {
-  // size é um multiplicador do tamanho original (+/- 10)	
+  // size é um multiplicador do tamanho original (+/- 9.5)	
   constructor(size) {
     this._size = size;
   }
@@ -41,7 +41,7 @@ class CarF1 {
 		this.addCarWing(car, 8, 1, 0);
 
 		car.castShadow = true;
-		car.position.set(x, y + 0.5, z); // y+0.5 por causa do raio da roda
+		car.position.set(x, y + 0.7 * size, z); // y + 0.7 por causa do raio da roda
 		car.scale.set(size, size, size);
 		
 		return car;
@@ -145,7 +145,7 @@ class CarF1 {
 	addCarChassi(obj, x, y, z) {
 
 		var geometry = new THREE.BoxGeometry(6, 0.5, 2);
-		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0, wireframe: false } );
+		var material = new THREE.MeshBasicMaterial( { color: 0xff0ff0, wireframe: false } );
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.position.set(x, y, z);
 
