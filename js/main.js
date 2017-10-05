@@ -54,15 +54,18 @@ function createScene() {
 	var mouse_Car = new CarMouse(10);
 	var carf1 = new CarF1(3);               // size é um multiplicador do tamanho original (=10)
 	var orange1 = new Orange(10);
+	var orange2 = new Orange(15);
+	var orange3 = new Orange(20);
 
 	scene.add(new THREE.AxisHelper(10));
-	scene.add(mouse_Car.getMesh(0, 20, 0));
-	scene.add(mouse_Car.getMesh(0, 50, 0));
+	scene.add(mouse_Car.getMesh(0, 0.5, 0));
 	scene.add(table.create_table());
-	scene.add(carf1.getMesh(30, 50, 30));
+	scene.add(carf1.getMesh(30, 0.5, 30));
 	scene.add(track.create_track());
 	scene.add(light.create_light(500, 1000, 0));
-	scene.add(orange1.create_orange(50, 10, 500));
+	scene.add(orange1.create_orange(50, 10, 300));
+	scene.add(orange2.create_orange(100, 10, -200));
+	scene.add(orange3.create_orange(-200, 10, 100));
 }
 
 
