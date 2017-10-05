@@ -13,7 +13,7 @@ class Track {
 	this.addLine(-400, height, 350, 700, 'v', track);
 	this.addLine(-300, height, -150, 200, 'v', track);
 	this.addLine(-250, height, -150, 200, 'v', track);
-	this.addLine(-200, height, -100, 500, 'h', track);
+	this.addLine(-190, height, -100, 500, 'h', track);
 	this.addLine(-200, height, -50, 500, 'h', track);
 	this.addLine(350, height, 100, 100, 'v', track);
 	this.addLine(400, height, 100, 100, 'v', track);
@@ -61,8 +61,6 @@ class Track {
   }
 
   addCircle(x, y, z, phase_i, phase_f, radious, track) {
-	
-
 	var cheerio = new Cheerios(y);
 	var mesh;
 	var i;
