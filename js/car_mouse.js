@@ -34,7 +34,7 @@ class CarMouse {
 		this.addRoundWheel(car, size*Math.cos(Math.PI*(3/4)), 0, size*Math.sin(Math.PI*(3/4)));
 		this.addRoundWheel(car, size*Math.cos(Math.PI*(-3/4)), 0, size*Math.sin(Math.PI*(-3/4)));
 
-		car.position.set(x, y + size/8, z);
+		car.position.set(x, y + size/4, z);
 
 		return car;
 	}
