@@ -145,7 +145,7 @@ class CarF1 {
 	addCarChassi(obj, x, y, z) {
 
 		var geometry = new THREE.BoxGeometry(6, 0.5, 2);
-		var material = new THREE.MeshBasicMaterial( { color: 0xff0ff0, wireframe: false } );
+		var material = new THREE.MeshStandardMaterial( { color: 0xff0ff0, wireframe: false } );
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.position.set(x, y, z);
 
