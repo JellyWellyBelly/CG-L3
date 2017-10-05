@@ -2,14 +2,18 @@
 
 class CarMouse {
 
-	constructor(size) {
-		this._size = size
-	}
+	constructor(size, x, y, z) {
+		
+		this._size = size;
+		
+		this._maxSpeed = 15000;
+		this._minSpeed = -20000;
+		this._acceleration = 0;
+		this._friction = 0;
+		this._currentSpeed = 0;
+		this._turningAngle = 0;
+		this._clock = new THREE.Clock();
 
-	getMesh(x, y, z) {
-		'use strict';
-
-		var size = this._size;
 		var car = new THREE.Object3D();
 
 		this.addCarBody(car, 0, 0, 0);
@@ -34,13 +38,86 @@ class CarMouse {
 		this.addRoundWheel(car, size*Math.cos(Math.PI*(3/4)), 0, size*Math.sin(Math.PI*(3/4)));
 		this.addRoundWheel(car, size*Math.cos(Math.PI*(-3/4)), 0, size*Math.sin(Math.PI*(-3/4)));
 
-		car.position.set(x, y + size/4, z);
+		car.position.set(x, y + size/8, z);
 
-		return car;
+		this._mesh = car;
 	}
 
-	addCarBody(obj, x, y, z) {
+	getMesh() {
 		'use strict';
+
+		return this._mesh;
+	}
+
+	update() {
+
+		var mesh = this._mesh;
+
+		var dt = this._clock.getDelta();
+		var acc = this._acceleration;
+		var v0 = this._currentSpeed;
+		var vmax = this._maxSpeed;
+		var vmin = this._minSpeed;
+		var friction = this._friction;
+		var angle = this._turningAngle;
+
+		if(acc > 0) { // wants to drive forward
+			v0 = Math.min(v0 + acc*dt, vmax*dt);
+		}
+		
+		else if(acc < 0) { // wants to drive backwards
+			v0 = Math.max(v0 + acc*dt, vmin*dt);
+		}
+		
+		else { //useless driver
+		 	if (v0 >= 0.5) {
+		 		friction = -80; //constant, to be tweeked
+				v0 = v0 + friction*dt;
+			}
+			else if (v0 <= -0.5){
+				friction = 120; //constant, to be tweeked
+				v0 = v0 + friction*dt;
+			}
+
+			else {
+				v0 = 0;
+			}
+		}
+
+		if (dt > 0) {
+			mesh.rotateY(angle * (v0/(vmax*dt)));
+		}
+
+		console.log(dt);
+		mesh.translateX(v0*dt); // dx = v0 * dt
+		//rotate
+
+		this._currentSpeed = v0;
+		this._mesh = mesh;
+	}
+
+	setAcc(acc) {
+
+		this._acceleration = acc;
+	}
+
+	setMaxSpeed(speed) {
+
+		this._maxSpeed = speed;
+	}
+
+	setMinSpeed(speed) {
+
+		this._minSpeed = speed;
+	}
+
+	setTurningAngle(angle) {
+
+		this._turningAngle = angle;
+	}
+
+
+	addCarBody(obj, x, y, z) {
 
 		var size = this._size;
 		var geometry = new THREE.SphereGeometry(size, 30, 30, 0, Math.PI);
