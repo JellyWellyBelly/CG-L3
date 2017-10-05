@@ -41,7 +41,7 @@ class CarF1 {
 		this.addCarWing(car, 8, 1, 0);
 
 		car.castShadow = true;
-		car.position.set(x, y, z);
+		car.position.set(x, y + 0.5, z); // y+0.5 por causa do raio da roda
 		car.scale.set(size, size, size);
 		
 		return car;
