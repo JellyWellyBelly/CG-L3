@@ -6,15 +6,33 @@ class Table {
     this._size = size;
   }
 
-  create_table(x, y, z) {
+  create_table() {
+    var size = this._size;
+    var height = size / 10;
 
-  	var geometry = new THREE.BoxGeometry(this._size, this._size / 100, this._size);
-  	var material = new THREE.MeshBasicMaterial( {color: 0x672c77});
+  	var geometry = new THREE.BoxGeometry(size, height, size);
+  	var material = new THREE.MeshBasicMaterial( {color: 0x000991});
   	var table = new THREE.Mesh(geometry, material);
   	
-  	table.position.set(0, -9.5, 0);
+  	table.position.set(0, -height / 2, 0);
+
+    this.addLeg(table, size / 4, size / 4);
+    this.addLeg(table, size / 4, -size / 4);
+    this.addLeg(table, -size / 4, size / 4);
+    this.addLeg(table, -size / 4, -size / 4);
 
   	return table;
   }
-}
 
+  addLeg(table, x, z) {
+    var height = this._size / 10;
+    
+    var geometry = new THREE.BoxGeometry(height, 2 * height, height);
+    var material = new THREE.MeshBasicMaterial( {color: 0x000991});
+    var leg = new THREE.Mesh(geometry, material);
+
+    leg.position.set(x, -(3 * height) / 2, z);
+
+    table.add(leg);
+  }
+}

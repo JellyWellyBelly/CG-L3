@@ -56,18 +56,16 @@ function createScene() {
 	var orange1 = new Orange(10);
 	var orange2 = new Orange(15);
 	var orange3 = new Orange(20);
-	var butter1 = new Butter(20);
 
 	scene.add(new THREE.AxisHelper(10));
-	scene.add(mouse_Car.getMesh(0, 0.5, 50));
+	scene.add(mouse_Car.getMesh(0, 0.5, 0));
 	scene.add(table.create_table());
 	scene.add(carf1.getMesh(30, 0.5, 30));
 	scene.add(track.create_track());
 	scene.add(light.create_light(500, 1000, 0));
-	scene.add(orange1.create_orange(50, 10, 300));
-	scene.add(orange2.create_orange(100, 10, -200));
-	scene.add(orange3.create_orange(-200, 10, 100));
-	scene.add(butter1.create_butter(250, 0, 300));
+	scene.add(orange1.create_orange(50, 0, 300));
+	scene.add(orange2.create_orange(100, 0, -200));
+	scene.add(orange3.create_orange(-200, 0, 100));
 }
 
 
@@ -86,7 +84,20 @@ function createCamera() {
 	camera.lookAt(scene.position);
 }
 
+function onKeyDown(e) {
+	'use strict';
 
+	switch (e.keyCode) {
+	case 65: //A
+	case 97: //a
+		scene.traverse(function (node) {
+			if (node instanceof THREE.Mesh) {
+				node.material.wireframe = !node.material.wireframe;
+			}
+		});
+		break;
+	}
+}
 
 function init() {
 	'use strict';
@@ -104,6 +115,7 @@ function init() {
 	render();	
 
 	window.addEventListener("resize", onResize);
+	window.addEventListener("keypress", onKeyDown);	
 
 	var controls = new THREE.OrbitControls(camera);
 	controls.addEventListener( 'change', render );
