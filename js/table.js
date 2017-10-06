@@ -11,7 +11,7 @@ class Table {
     var height = size / 10;
 
   	var geometry = new THREE.BoxGeometry(size, height, size);
-  	var material = new THREE.MeshBasicMaterial( {color: 0x000991});
+  	var material = new THREE.MeshBasicMaterial({color: 0x000991});
   	var table = new THREE.Mesh(geometry, material);
   	
   	table.position.set(0, -height / 2, 0);
@@ -28,7 +28,7 @@ class Table {
     var height = this._size / 10;
     
     var geometry = new THREE.BoxGeometry(height, 2 * height, height);
-    var material = new THREE.MeshBasicMaterial( {color: 0x000991});
+    var material = new THREE.MeshBasicMaterial({color: 0x000991});
     var leg = new THREE.Mesh(geometry, material);
 
     leg.position.set(x, -(3 * height) / 2, z);
