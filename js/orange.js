@@ -10,7 +10,7 @@ class Orange {
 
     var size = this._size
 
-  	var geometry = new THREE.SphereGeometry(size, 30, 30, 0);
+  	var geometry = new THREE.SphereGeometry(size, 10, 10, 0);
   	var material = new THREE.MeshStandardMaterial( {color: 0xed862d, wireframe: false});
   	var orange = new THREE.Mesh(geometry, material);
 

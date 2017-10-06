@@ -7,7 +7,7 @@ class Cheerios extends THREE.Mesh{
 
   getCheerio() {
 
-  	var geometry = new THREE.TorusGeometry(2, this._height, 15, 15, Math.PI * 2);
+  	var geometry = new THREE.TorusGeometry(2, this._height, 10, 10, Math.PI * 2);
   	var material = new THREE.MeshStandardMaterial({color: 0xf2c763});
   	var cheerio = new THREE.Mesh(geometry, material);
   	
