@@ -58,6 +58,10 @@ function createScene() {
 	var orange2 = new Orange(15);
 	var orange3 = new Orange(20);
 	var butter1 = new Butter(30);
+	var butter2 = new Butter(30);
+	var butter3 = new Butter(30);
+	var butter4 = new Butter(30);
+	var butter5 = new Butter(30);
 	
 	scene_elements.push(carMouse);   // testing
 	//scene_elements.push(carF1);   	  // testing
@@ -71,7 +75,11 @@ function createScene() {
 	scene.add(orange1.create_orange(50, 0, 300));
 	scene.add(orange2.create_orange(100, 0, -200));
 	scene.add(orange3.create_orange(-200, 0, 100));
-	scene.add(butter1.create_butter(-300, 0, -300));
+	scene.add(butter1.create_butter(-450, 0, 450));
+	scene.add(butter2.create_butter(-150, 0, 350));
+	scene.add(butter3.create_butter(50, 0, 350));
+	scene.add(butter4.create_butter(-200, 0, -150));
+	scene.add(butter5.create_butter(-350, 0, -350));
 }
 
 function createCamera() {
