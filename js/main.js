@@ -2,7 +2,7 @@
 
 //Made by script wizards
 
-var camera, scene, renderer;
+var camera, scene, renderer, elem;
 var window_ratio;
 var scene_size = 510;
 var scene_elements = [];
