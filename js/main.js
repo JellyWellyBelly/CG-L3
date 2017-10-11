@@ -7,6 +7,7 @@ var window_ratio;
 var scene_size = 510;
 var scene_elements = [];
 var carMouse;   //so the eventListener know wich car to update the flags
+var frame = false;
 
 function render() {
 	renderer.render(scene, camera);
@@ -24,8 +25,7 @@ function onResize() {
 
 	if (window.innerHeight > 0 && window.innerWidth > 0) { // dividing by zero error preventer
 		window_ratio = renderer.getSize().width / renderer.getSize().height; //updating window ratio
-		if (window_ratio > 1) { 
-
+		if (window_ratio > 1) {
 			camera.left = - scene_size * window_ratio; //left
 			camera.right = scene_size * window_ratio; //right
 			camera.top = scene_size; //top
@@ -63,18 +63,20 @@ function createScene() {
 	var butter4 = new Butter(30);
 	var butter5 = new Butter(30);
 	
-	scene_elements.push(carMouse);   // testing
-	//scene_elements.push(carF1);   	  // testing
+	scene_elements.push(carMouse);
+	//scene_elements.push(carF1);
 
-	//scene.add(new THREE.AxisHelper(10));	// to be removed
+	//scene.add(new THREE.AxisHelper(10));
 	scene.add(carMouse.getMesh());
 	scene.add(table.create_table());
 	//scene.add(carF1.getMesh(30, 0.5, 30));
 	scene.add(track.create_track());
 	//scene.add(light.create_light(500, 1000, 0));
+
 	scene.add(orange1.create_orange(50, 0, 300));
 	scene.add(orange2.create_orange(100, 0, -200));
 	scene.add(orange3.create_orange(-200, 0, 100));
+
 	scene.add(butter1.create_butter(-450, 0, 450));
 	scene.add(butter2.create_butter(-150, 0, 350));
 	scene.add(butter3.create_butter(50, 0, 350));
@@ -132,9 +134,10 @@ function onKeyPress(e) {
 	switch (e.keyCode) {
 	case 65: //A
 	case 97: //a
+		frame = !frame;
 		scene.traverse(function (node) {
 			if (node instanceof THREE.Mesh) {
-				node.material.wireframe = !node.material.wireframe;
+				node.material.wireframe = frame;
 			}
 		});
 		break;
