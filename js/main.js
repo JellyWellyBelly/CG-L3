@@ -2,34 +2,27 @@
 
 //Made by script wizards
 
-var camera, scene, renderer, elem;
+var cameraPresp, cameraOrt, cameraCar, scene, renderer, elem;
 var window_ratio;
 var scene_size = 510;
 var scene_elements = [];
 var carMouse;   //so the eventListener know wich car to update the flags
 var frame = false;
+var cameraInUse;
 
-function render() {
-	renderer.render(scene, camera);
-}
 
-function update() {
-	for (var i = scene_elements.length - 1; i >= 0; i--) {
-		elem = scene_elements[i];
-		elem.update();
-	}
-}
 
 function onResize() {
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
+
 	if (window.innerHeight > 0 && window.innerWidth > 0) { // dividing by zero error preventer
 		window_ratio = renderer.getSize().width / renderer.getSize().height; //updating window ratio
 		if (window_ratio > 1) {
-			camera.left = - scene_size * window_ratio; //left
-			camera.right = scene_size * window_ratio; //right
-			camera.top = scene_size; //top
-			camera.bottom = - scene_size; //bottom
+			cameraOrt.left = - scene_size * window_ratio; //left
+			cameraOrt.right = scene_size * window_ratio; //right
+			cameraOrt.top = scene_size; //top
+			cameraOrt.bottom = - scene_size; //bottom
 		}
 		else {
 
@@ -37,14 +30,26 @@ function onResize() {
 			// this window ratio is the inverse of the window ratio above
 			// new_ratio = 1 / old_ratio
 			window_ratio = renderer.getSize().height / renderer.getSize().width; 
-			camera.left = - scene_size; //left
-			camera.right = scene_size; //right
-			camera.top = scene_size * window_ratio; //top
-			camera.bottom = - scene_size * window_ratio; //bottom
+			cameraOrt.left = - scene_size; //left
+			cameraOrt.right = scene_size; //right
+			cameraOrt.top = scene_size * window_ratio; //top
+			cameraOrt.bottom = - scene_size * window_ratio; //bottom
 		}
-		camera.updateProjectionMatrix(); //update camera
+		cameraOrt.updateProjectionMatrix(); //update camera
+	}
+
+	if (window.innerHeight > 0 && window.innerWidth > 0) {
+		cameraPresp.aspect = renderer.getSize().width / renderer.getSize().height;
+		cameraPresp.updateProjectionMatrix();
+	}
+
+	if (window.innerHeight > 0 && window.innerWidth > 0) {
+		cameraCar.aspect = renderer.getSize().width / renderer.getSize().height;
+		cameraCar.updateProjectionMatrix();
 	}
 }
+
+
 
 function createScene() {
 	scene = new THREE.Scene();
@@ -66,6 +71,7 @@ function createScene() {
 	scene_elements.push(carMouse);
 	//scene_elements.push(carF1);
 
+
 	//scene.add(new THREE.AxisHelper(10));
 	scene.add(carMouse.getMesh());
 	scene.add(table.create_table());
@@ -84,15 +90,35 @@ function createScene() {
 	scene.add(butter5.create_butter(-350, 0, -350));
 }
 
-function createCamera() {
-	camera = new THREE.OrthographicCamera(-scene_size, //left
+
+function createCameraOrt() {
+	cameraOrt = new THREE.OrthographicCamera(-scene_size, //left
 										   scene_size, //right
 										   scene_size, //top
 										  -scene_size, //bottom
 										   0.01, 2000);
+	cameraOrt.position.set(0, 500, 0);
+	cameraOrt.lookAt(scene.position);
+}
+
+
+function createCameraPresp() {
+	'use strict';
+	cameraPresp = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 1500)
+
 	onResize();
-	camera.position.set(0, 500, 0);
-	camera.lookAt(scene.position);
+	cameraPresp.position.x = -600;
+	cameraPresp.position.y = 200;
+	cameraPresp.position.z = 600;
+	cameraPresp.lookAt(scene.position);
+}
+
+function createCameraCar() {
+	'use strict';
+	cameraCar = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 1, 1000)
+
+	cameraCar.position.set(-30,15,0);
+	cameraCar.lookAt(carMouse.getPosition());
 }
 
 function onKeyDown(e) {
@@ -141,7 +167,24 @@ function onKeyPress(e) {
 			}
 		});
 		break;
+
+	case 49:
+		cameraInUse = cameraOrt;
+		render();
+		break;
+
+	case 50:
+		cameraInUse = cameraPresp;
+		render();
+		break;
+
+	case 51:
+		cameraInUse = cameraCar
+		render();
+		break;
+
 	}
+
 }
 
 function init() {
@@ -151,9 +194,15 @@ function init() {
 	document.body.appendChild(renderer.domElement);
 
 	createScene();
-	createCamera();
-	
-	render();	
+	createCameraOrt();
+	createCameraCar();
+	createCameraPresp();
+
+	cameraInUse = cameraCar;
+	var carro = carMouse.getMesh();
+	carro.add(cameraCar);
+	render();
+
 
 	window.addEventListener("resize", onResize);
 	window.addEventListener("keydown", onKeyDown);
@@ -164,6 +213,16 @@ function init() {
 	//controls.addEventListener( 'change', render );
 }
 
+function render() {
+	renderer.render(scene, cameraInUse);
+}
+
+function update() {
+	for (var i = scene_elements.length - 1; i >= 0; i--) {
+		elem = scene_elements[i];
+		elem.update();
+	}
+}
 
 function animate() {
 	update();
