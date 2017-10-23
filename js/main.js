@@ -53,7 +53,7 @@ function onResize() {
 
 function createScene() {
 	scene = new THREE.Scene();
-	carMouse = new CarMouse(10, 0, 0, 0);
+	carMouse = new CarMouse(10, 0, 0, -75);
 
 	var table = new Table(1000);
 	//var light = new DirectionalLight();
@@ -117,8 +117,8 @@ function createCameraCar() {
 	'use strict';
 	cameraCar = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 1, 1000)
 
-	cameraCar.position.set(-30,15,0);
-	cameraCar.lookAt(carMouse.getPosition());
+	cameraCar.position.set(-50,20,0); 
+	cameraCar.rotation.set(0, -Math.PI/2, 0);
 }
 
 function onKeyDown(e) {
