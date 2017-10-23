@@ -1,18 +1,12 @@
-'use strict';
+'use strict';	
 
-class CarMouse {
+class CarMouse extends MovableObject {
 
 	constructor(size, x, y, z) {
-		this._size = size;
-		this._maxSpeed = 15000;
-		this._minSpeed = -20000;
-		this._acceleration = 0;
-		this._friction = 0;
-		this._currentSpeed = 0;
-		this._turningAngle = 0;
-		this._clock = new THREE.Clock();
 
 		var car = new THREE.Object3D();
+		
+		super(15000, -20000, 0, 0, 0, 0, size, car);
 
 		this.addCarBody(car, 0, 0, 0);
 		this.addCarBase(car, 0, 0, 0);
@@ -38,22 +32,35 @@ class CarMouse {
 
 		car.position.set(x, y + size / 8, z);
 
-		this._mesh = car;
-	}
-
-	getMesh() {
-		return this._mesh;
 	}
 
 	update() {
-		var mesh = this._mesh;
-		var dt = this._clock.getDelta();
-		var acc = this._acceleration;
-		var v0 = this._currentSpeed;
+		if(this.checkCollision()) {
+			this.movementWithCollision();
+		}
+		else {
+			this.movementWithNoCollision();
+		}
+	}
+
+	checkCollision() {
+		/* TO BE IMPLEMENTED */
+	}
+
+	movementWithCollision() {
+		/* TO BE IMPLEMENTED */
+	}
+
+	movementWithNoCollision() {
+
 		var vmax = this._maxSpeed;
 		var vmin = this._minSpeed;
+		var acc = this._acceleration;
 		var friction = this._friction;
+		var v0 = this._currentSpeed;
 		var angle = this._turningAngle;
+		var mesh = this._mesh;
+		var dt = this._clock.getDelta();
 
 		if(acc > 0) { // wants to drive forward
 			v0 = Math.min(v0 + acc*dt, vmax*dt);
@@ -79,10 +86,11 @@ class CarMouse {
 			mesh.rotateY(angle * (v0/(vmax*dt)));
 		}
 
-		mesh.translateX(v0*dt); // dx = v0 * dt
-
+		mesh.translateX(v0 * dt); // dx = v0 * dt
+		
 		this._currentSpeed = v0;
 		this._mesh = mesh;
+
 	}
 
 	setAcc(acc) {
