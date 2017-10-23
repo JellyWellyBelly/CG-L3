@@ -62,11 +62,11 @@ function createScene() {
 	var orange1 = new Orange(10);
 	var orange2 = new Orange(15);
 	var orange3 = new Orange(20);
-	var butter1 = new Butter(30);
-	var butter2 = new Butter(30);
-	var butter3 = new Butter(30);
-	var butter4 = new Butter(30);
-	var butter5 = new Butter(30);
+	var butter1 = new Butter(30, -450, 0, 450);
+	var butter2 = new Butter(30, -150, 0, 350);
+	var butter3 = new Butter(30, 50, 0, 350);
+	var butter4 = new Butter(30, -200, 0, -150);
+	var butter5 = new Butter(30, -350, 0, -350);
 	
 	scene_elements.push(carMouse);
 	//scene_elements.push(carF1);
@@ -83,11 +83,11 @@ function createScene() {
 	scene.add(orange2.create_orange(100, 0, -200));
 	scene.add(orange3.create_orange(-200, 0, 100));
 
-	scene.add(butter1.create_butter(-450, 0, 450));
-	scene.add(butter2.create_butter(-150, 0, 350));
-	scene.add(butter3.create_butter(50, 0, 350));
-	scene.add(butter4.create_butter(-200, 0, -150));
-	scene.add(butter5.create_butter(-350, 0, -350));
+	scene.add(butter1.getMesh());
+	scene.add(butter2.getMesh());
+	scene.add(butter3.getMesh());
+	scene.add(butter4.getMesh());
+	scene.add(butter5.getMesh());
 }
 
 
