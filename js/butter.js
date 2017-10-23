@@ -1,20 +1,20 @@
 'use strict';
 
-class Butter {
+class Butter extends MovableObject {
 
-  constructor(size) {
-    this._size = size;
-  }
+  constructor(size, x, y, z) {
 
-  create_butter(x, y, z) {
-    var size = this._size
     var butter = new THREE.Object3D();
+
+    super(1000, 0, 0, 0, 0, 0, size, butter);
 
   	this.addBase(butter, size, x, y, z);
     this.addButter(butter, size, x, y, z);
 
-  	return butter;
   }
+
+  movementWithCollision() {}
+  movementWithNoCollision() {}
 
   addBase(obj, size, x, y, z) {
     var geometry = new THREE.BoxGeometry(size, size / 4, 2 * size);
