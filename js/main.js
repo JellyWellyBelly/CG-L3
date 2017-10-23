@@ -53,7 +53,7 @@ function onResize() {
 
 function createScene() {
 	scene = new THREE.Scene();
-	carMouse = new CarMouse(10, 0, 0, -75);
+	carMouse = new CarMouse(5, 0, 0, -75);
 
 	var table = new Table(1000);
 	//var light = new DirectionalLight();
@@ -208,9 +208,7 @@ function init() {
 	window.addEventListener("keydown", onKeyDown);
 	window.addEventListener("keyup", onKeyUp);
 	window.addEventListener("keypress", onKeyPress);
-
-	//var controls = new THREE.OrbitControls(camera);
-	//controls.addEventListener( 'change', render );
+	
 }
 
 function render() {
