@@ -5,8 +5,8 @@ class CarMouse extends MovableObject {
 	constructor(size, x, y, z) {
 
 		var car = new THREE.Object3D();
-		
-		super(15000, -20000, 0, 0, 0, 0, size, car);
+
+		super(8000, -12000, 0, 0, 0, 0, size, car, size);
 
 		this.addCarBody(car, 0, 0, 0);
 		this.addCarBase(car, 0, 0, 0);
@@ -34,24 +34,48 @@ class CarMouse extends MovableObject {
 
 	}
 
-	update() {
-		if(this.checkCollision()) {
-			this.movementWithCollision();
+	update(scene_elements) {
+
+		
+		var collision;
+		var rot = this._mesh.rotation;
+		var pos = this._mesh.position;
+		var dt = this._clock.getDelta();
+		
+		/* Current rotation */
+		var rotX = rot.x;
+		var rotY = rot.y;
+		var rotZ = rot.z;
+
+		/* Current position */
+		var posX = pos.x;
+		var posY = pos.y;
+		var posZ = pos.z;
+
+		this.movementWithNoCollision(dt); /* Moves the object to see if there is collision */
+
+		collision = super.checkCollision(this, scene_elements); /* Checks collision */
+
+		this._mesh.position.set(posX, posY, posZ);	/* Brings the position back to the current frame */
+		this._mesh.rotation.set(rotX, rotY, rotZ);	/* Brings the rotation back to the current frame */
+
+		if (collision == "") {
+			this.movementWithNoCollision(dt);
 		}
+
 		else {
-			this.movementWithNoCollision();
+			this.movementWithCollision(collision, dt);
 		}
 	}
 
-	checkCollision() {
-		/* TO BE IMPLEMENTED */
+	movementWithCollision(collision, dt) {
+		/*TEMPORARIO CARALHOO!!!!!! */
+
+		this._currentSpeed = 0;
+
 	}
 
-	movementWithCollision() {
-		/* TO BE IMPLEMENTED */
-	}
-
-	movementWithNoCollision() {
+	movementWithNoCollision(dt) {
 
 		var vmax = this._maxSpeed;
 		var vmin = this._minSpeed;
@@ -60,7 +84,6 @@ class CarMouse extends MovableObject {
 		var v0 = this._currentSpeed;
 		var angle = this._turningAngle;
 		var mesh = this._mesh;
-		var dt = this._clock.getDelta();
 
 		if(acc > 0) { // wants to drive forward
 			v0 = Math.min(v0 + acc*dt, vmax*dt);
@@ -82,7 +105,7 @@ class CarMouse extends MovableObject {
 			}
 		}
 
-		if (dt > 0) {
+		if ((dt > 0) && (vmax > 0)) {
 			mesh.rotateY(angle * (v0/(vmax*dt)));
 		}
 
