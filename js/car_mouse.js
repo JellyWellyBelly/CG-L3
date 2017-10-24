@@ -83,6 +83,12 @@ class CarMouse extends MovableObject {
 			this._mesh.position.set(x, y, z);
 			this._mesh.rotation.set(0,0,0);
 		}
+		
+		else if (collision == "cheerio") {
+			/* Temporario */
+			this._currentSpeed = this._currentSpeed / 2;
+			this.movementWithNoCollision(dt);
+		}
 
 		/* Undefined goes through object*/
 		else {}
