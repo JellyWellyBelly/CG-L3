@@ -60,9 +60,10 @@ function createScene() {
 	//var light = new DirectionalLight();
 	var track = new Track();
 	//var carF1 = new CarF1(3);               // size é um multiplicador do tamanho original (+/- 10)
-	var orange1 = new Orange(10);
-	var orange2 = new Orange(15);
-	var orange3 = new Orange(20);
+	var orange1 = new Orange(10, 50, 0, 300);
+	var orange2 = new Orange(15, 100, 0, -200);
+	var orange3 = new Orange(20, -200, 0, 100);
+
 	var butter1 = new Butter(30, -450, 0, 450);
 	var butter2 = new Butter(30, -150, 0, 350);
 	var butter3 = new Butter(30, 50, 0, 350);
@@ -75,19 +76,20 @@ function createScene() {
 	scene_elements.push(butter3);
 	scene_elements.push(butter4);
 	scene_elements.push(butter5);
+	
 	scene_elements.push(orange1);
 	scene_elements.push(orange2);
 	scene_elements.push(orange3);
 
 	scene.add(table.create_table());
-	scene.add(track.create_track());
+	scene.add(track.create_track(scene));
 	//scene.add(light.create_light(500, 1000, 0));
 
 	scene.add(carMouse.getMesh());
 
-	scene.add(orange1.create_orange(50, 0, 300));
-	scene.add(orange2.create_orange(100, 0, -200));
-	scene.add(orange3.create_orange(-200, 0, 100));
+	scene.add(orange1.getMesh());
+	scene.add(orange2.getMesh());
+	scene.add(orange3.getMesh());
 
 	scene.add(butter1.getMesh());
 	scene.add(butter2.getMesh());
