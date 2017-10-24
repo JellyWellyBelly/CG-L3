@@ -69,9 +69,23 @@ class CarMouse extends MovableObject {
 	}
 
 	movementWithCollision(collision, dt) {
-		/*TEMPORARIO CARALHOO!!!!!! */
+		
+		/* Collides with butter */
+		if (collision == "butter") {
+			this._currentSpeed = 0;
+		}
 
-		this._currentSpeed = 0;
+		else if (collision == "orange") {
+			var x = this._spawnPos[0];
+			var y = this._spawnPos[1];
+			var z = this._spawnPos[2];
+
+			this._mesh.position.set(x, y, z);
+			this._mesh.rotation.set(0,0,0);
+		}
+
+		/* Undefined goes through object*/
+		else {}
 
 	}
 
