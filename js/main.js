@@ -69,13 +69,13 @@ function createScene() {
 	var butter5 = new Butter(30, -350, 0, -350);
 	
 	scene_elements.push(carMouse);
-	//scene_elements.push(carF1);
+	scene_elements.push(butter1);
+	scene_elements.push(butter2);
+	scene_elements.push(butter3);
+	scene_elements.push(butter4);
+	scene_elements.push(butter5);
 
-
-	//scene.add(new THREE.AxisHelper(10));
-	scene.add(carMouse.getMesh());
 	scene.add(table.create_table());
-	//scene.add(carF1.getMesh(30, 0.5, 30));
 	scene.add(track.create_track());
 	//scene.add(light.create_light(500, 1000, 0));
 
