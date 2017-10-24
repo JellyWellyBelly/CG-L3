@@ -9,6 +9,7 @@ var scene_elements = [];
 var carMouse;   //so the eventListener know wich car to update the flags
 var frame = false;
 var cameraInUse;
+var carSize = 5;
 
 
 
@@ -53,7 +54,7 @@ function onResize() {
 
 function createScene() {
 	scene = new THREE.Scene();
-	carMouse = new CarMouse(5, 0, 0, -75);
+	carMouse = new CarMouse(carSize, 0, 0, -75);
 
 	var table = new Table(1000);
 	//var light = new DirectionalLight();
@@ -80,7 +81,7 @@ function createScene() {
 	//scene.add(light.create_light(500, 1000, 0));
 
 	scene.add(carMouse.getMesh());
-	
+
 	scene.add(orange1.create_orange(50, 0, 300));
 	scene.add(orange2.create_orange(100, 0, -200));
 	scene.add(orange3.create_orange(-200, 0, 100));
@@ -119,7 +120,7 @@ function createCameraCar() {
 	'use strict';
 	cameraCar = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 1, 1000)
 
-	cameraCar.position.set(-50,20,0); 
+	cameraCar.position.set(- carSize * 10, carSize * 4, 0); 
 	cameraCar.rotation.set(0, -Math.PI/2, 0);
 }
 
