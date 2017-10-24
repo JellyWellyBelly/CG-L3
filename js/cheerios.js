@@ -1,9 +1,13 @@
 'use strict';
 
-class Cheerio extends THREE.Mesh {
+class Cheerio extends MovableObject {
 
   constructor(height) {
-  	super();
+
+    var cheerio = new THREE.Object3D();
+
+    super(0, 0, 0, 0, 0, 0, null, cheerio, 2 + height);
+
     this._height = height;
 
     var geometry = new THREE.TorusGeometry(2, this._height, 10, 10, Math.PI * 2);
@@ -16,7 +20,7 @@ class Cheerio extends THREE.Mesh {
     this._mesh = cheerio;
   }
 
-  getMesh() {
-  	return this._mesh;
-  }
+  movementWithCollision() {}
+  movementWithNoCollision() {}
+
 }
