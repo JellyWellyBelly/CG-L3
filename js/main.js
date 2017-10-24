@@ -218,7 +218,7 @@ function render() {
 function update() {
 	for (var i = scene_elements.length - 1; i >= 0; i--) {
 		elem = scene_elements[i];
-		elem.update();
+		elem.update(scene_elements);
 	}
 }
 
