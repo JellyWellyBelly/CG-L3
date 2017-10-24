@@ -75,6 +75,9 @@ function createScene() {
 	scene_elements.push(butter3);
 	scene_elements.push(butter4);
 	scene_elements.push(butter5);
+	scene_elements.push(orange1);
+	scene_elements.push(orange2);
+	scene_elements.push(orange3);
 
 	scene.add(table.create_table());
 	scene.add(track.create_track());
