@@ -79,6 +79,8 @@ function createScene() {
 	scene.add(track.create_track());
 	//scene.add(light.create_light(500, 1000, 0));
 
+	scene.add(carMouse.getMesh());
+	
 	scene.add(orange1.create_orange(50, 0, 300));
 	scene.add(orange2.create_orange(100, 0, -200));
 	scene.add(orange3.create_orange(-200, 0, 100));
