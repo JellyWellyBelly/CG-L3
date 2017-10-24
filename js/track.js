@@ -3,11 +3,14 @@
 class Track {
 
   constructor() {
+	  this._list = [];
   }
 
-  create_track() {
+  create_track(scene) {
 	var track = new THREE.Object3D();
 	var height = 1.5;
+	var i;
+	var list = this._list;
 
 	this.addHorizontalLine(track, -450, -400, height, 350, 700);
 	this.addHorizontalLine(track, -300, -250, height, -150, 200);
@@ -22,6 +25,10 @@ class Track {
 	this.addCircle(track, -150, height, 350, -Math.PI / 2, Math.PI / 2, 100, 150);
 	this.addCircle(track, -350, height, 350, Math.PI / 2, 3 * Math.PI / 2, 50, 100);
 
+	for(i = 0; i < list.length; i++) {
+		scene.add(list[i]);
+	}
+	  
 	return track;
   }
 
