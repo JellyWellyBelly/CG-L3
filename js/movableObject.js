@@ -51,9 +51,15 @@ class MovableObject {
 				}
 			}
 			
-			if((obj instanceof CarMouse) && (elem instanceof Orange)) {
+			else if((obj instanceof CarMouse) && (elem instanceof Orange)) {
 				if(obj_center.distanceToSquared(elem_center) < (elem._BB_Radius + obj._BB_Radius)**2) {
 					result = "orange";
+				}
+			}
+			
+			else if ((obj instanceof CarMouse) && (elem instanceof Cheerio)) {
+				if(obj_center.distanceToSquared(elem_center) < (elem.BB_Radius + obj.BB_Radius)**2) {
+					result = "cheerio";
 				}
 			}
 		});
