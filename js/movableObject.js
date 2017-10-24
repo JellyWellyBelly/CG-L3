@@ -15,7 +15,7 @@ class MovableObject {
 		this._clock = new THREE.Clock();
 		this._mesh = mesh;
 
-		this.BB_Radius = bb_rad;
+		this._BB_Radius = bb_rad;
 	}
 
 	getMesh() {
@@ -37,7 +37,7 @@ class MovableObject {
 		scene_elements.forEach(function(elem){
 
 			elem_center = elem.getMesh().position;
-			elem_BB_radius = elem.BB_Radius;
+			elem_BB_radius = elem._BB_Radius;
 
 			/*  
 				These ifs compose the different types of collisions. 
@@ -45,12 +45,14 @@ class MovableObject {
 				Sum of the bounding boxes radius must be smaller than the distance between the centeres of the objects.
 				It is used the distance squared for improved perfomance. 
 			*/
+			
+
 			if((obj instanceof CarMouse) && (elem instanceof Butter)) {
-				if(obj_center.distanceToSquared(elem_center) < (elem.BB_Radius + obj.BB_Radius)**2) {
+				if(obj_center.distanceToSquared(elem_center) < (elem.BB_Radius + obj._BB_Radius)**2) {
 					result = "butter";
 				}
 			}
-			
+
 			else if((obj instanceof CarMouse) && (elem instanceof Orange)) {
 				if(obj_center.distanceToSquared(elem_center) < (elem._BB_Radius + obj._BB_Radius)**2) {
 					result = "orange";
@@ -58,14 +60,12 @@ class MovableObject {
 			}
 			
 			else if ((obj instanceof CarMouse) && (elem instanceof Cheerio)) {
-				if(obj_center.distanceToSquared(elem_center) < (elem.BB_Radius + obj.BB_Radius)**2) {
+				if(obj_center.distanceToSquared(elem_center) < (elem.BB_Radius + obj._BB_Radius)**2) {
 					result = "cheerio";
 				}
 			}
 		});
 
 		return result;
-
-
 	}
 }

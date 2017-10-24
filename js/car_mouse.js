@@ -8,6 +8,8 @@ class CarMouse extends MovableObject {
 
 		super(8000, -12000, 0, 0, 0, 0, size, car, size);
 
+		this._spawnPos = [x, y, z];
+
 		this.addCarBody(car, 0, 0, 0);
 		this.addCarBase(car, 0, 0, 0);
 		this.addMouth(car, size*Math.cos(Math.PI / 7) * 0.80, size * Math.sin(Math.PI / 7) * 0.80, 0); //polar coordinates
@@ -55,7 +57,7 @@ class CarMouse extends MovableObject {
 		this.movementWithNoCollision(dt); /* Moves the object to see if there is collision */
 
 		collision = super.checkCollision(this, scene_elements); /* Checks collision */
-
+		
 		this._mesh.position.set(posX, posY, posZ);	/* Brings the position back to the current frame */
 		this._mesh.rotation.set(rotX, rotY, rotZ);	/* Brings the rotation back to the current frame */
 
@@ -69,7 +71,7 @@ class CarMouse extends MovableObject {
 	}
 
 	movementWithCollision(collision, dt) {
-		
+
 		/* Collides with butter */
 		if (collision == "butter") {
 			this._currentSpeed = 0;
