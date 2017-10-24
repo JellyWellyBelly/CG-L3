@@ -51,7 +51,7 @@ class MovableObject {
 				}
 			}
 			
-			if((obj instanceof CarMouse) && (elem instanceof Butter)) {
+			if((obj instanceof CarMouse) && (elem instanceof Orange)) {
 				if(obj_center.distanceToSquared(elem_center) < (elem._BB_Radius + obj._BB_Radius)**2) {
 					result = "orange";
 				}
