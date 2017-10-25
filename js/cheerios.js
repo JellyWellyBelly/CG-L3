@@ -91,7 +91,7 @@ class Cheerio extends MovableObject {
   startMoving(velocity, vec, dt) {
       vec.y = vec.z;  // Como os cheerios estao rodados 90 graus em XX temos de mudar o vetor
       vec.z = 0;
-      //vec.normalize();
+      vec.normalize();
       this._vec = vec;
 
       this._currentSpeed = velocity;   
