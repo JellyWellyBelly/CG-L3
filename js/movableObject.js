@@ -30,8 +30,8 @@ class MovableObject {
 
 		var elem_center;
 		var elem_BB_radius;
-		var result = ""; /* "" 			   if there is no collision
-							"<ObjectName>" if collides with an object */
+		var result = null; /* "" 			   if there is no collision
+							  "<ObjectName>" if collides with an object */
 
 		/* Goes through every elem in the scene and checks collisions. */
 		scene_elements.forEach(function(elem){
@@ -45,23 +45,9 @@ class MovableObject {
 				Sum of the bounding boxes radius must be smaller than the distance between the centeres of the objects.
 				It is used the distance squared for improved perfomance. 
 			*/
-			
-
-			if((obj instanceof CarMouse) && (elem instanceof Butter)) {
-				if(obj_center.distanceToSquared(elem_center) < (elem.BB_Radius + obj._BB_Radius)**2) {
-					result = "butter";
-				}
-			}
-
-			else if((obj instanceof CarMouse) && (elem instanceof Orange)) {
+			if(obj.getMesh().uuid != elem.getMesh().uuid) {
 				if(obj_center.distanceToSquared(elem_center) < (elem._BB_Radius + obj._BB_Radius)**2) {
-					result = "orange";
-				}
-			}
-			
-			else if ((obj instanceof CarMouse) && (elem instanceof Cheerio)) {
-				if(obj_center.distanceToSquared(elem_center) < (elem.BB_Radius + obj._BB_Radius)**2) {
-					result = "cheerio";
+						result = elem;
 				}
 			}
 		});

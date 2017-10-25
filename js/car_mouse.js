@@ -37,9 +37,8 @@ class CarMouse extends MovableObject {
 	}
 
 	update(scene_elements) {
-
 		
-		var collision;
+		var collision = null;
 		var rot = this._mesh.rotation;
 		var pos = this._mesh.position;
 		var dt = this._clock.getDelta();
@@ -61,7 +60,7 @@ class CarMouse extends MovableObject {
 		this._mesh.position.set(posX, posY, posZ);	/* Brings the position back to the current frame */
 		this._mesh.rotation.set(rotX, rotY, rotZ);	/* Brings the rotation back to the current frame */
 
-		if (collision == "") {
+		if (collision == null) {
 			this.movementWithNoCollision(dt);
 		}
 
@@ -72,24 +71,35 @@ class CarMouse extends MovableObject {
 
 	movementWithCollision(collision, dt) {
 
-		/* Collides with butter */
-		if (collision == "butter") {
+		/* Collides with Butter */
+		if (collision instanceof Butter) {
 			this._currentSpeed = 0;
 		}
 
-		else if (collision == "orange") {
+		/* Collides with Orange */
+		else if (collision instanceof Orange) {
 			var x = this._spawnPos[0];
-			var y = this._spawnPos[1];
+			var y = this._spawnPos[1] + (this._size / 8);
 			var z = this._spawnPos[2];
 
 			this._mesh.position.set(x, y, z);
 			this._mesh.rotation.set(0,0,0);
 		}
 		
-		else if (collision == "cheerio") {
-			/* Temporario */
-			this._currentSpeed = this._currentSpeed / 2;
-			this.movementWithNoCollision(dt);
+		/* Collides with Cheerio */
+		else if (collision instanceof Cheerio) {
+			var vec = new THREE.Vector3();
+			var v0 = this._currentSpeed;
+			
+			var car_pos = this._mesh.position;
+			var cheerio_pos = collision._mesh.position;
+
+			this._currentSpeed = v0 / 2;
+
+			vec.subVectors(cheerio_pos, car_pos);
+
+			collision.startMoving(Math.abs(v0*1.5), vec, dt);
+
 		}
 
 		/* Undefined goes through object*/

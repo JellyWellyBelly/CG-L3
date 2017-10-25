@@ -59,7 +59,6 @@ function createScene() {
 	var table = new Table(1000);
 	//var light = new DirectionalLight();
 	var track = new Track();
-	//var carF1 = new CarF1(3);               // size é um multiplicador do tamanho original (+/- 10)
 	var orange1 = new Orange(10, 50, 0, 300);
 	var orange2 = new Orange(15, 100, 0, -200);
 	var orange3 = new Orange(20, -200, 0, 100);
@@ -82,7 +81,14 @@ function createScene() {
 	scene_elements.push(orange3);
 
 	scene.add(table.create_table());
-	scene.add(track.create_track(scene));
+	track.create_track();
+
+	var cheerioList = track.getAllCheerios();
+	for(var i = 0; i < cheerioList.length; i = i + 1) {
+		scene.add(cheerioList[i].getMesh());
+		scene_elements.push(cheerioList[i]);
+	}
+	
 	//scene.add(light.create_light(500, 1000, 0));
 
 	scene.add(carMouse.getMesh());
@@ -206,7 +212,7 @@ function init() {
 	createCameraCar();
 	createCameraPresp();
 
-	cameraInUse = cameraCar;
+	cameraInUse = cameraOrt;
 	var carro = carMouse.getMesh();
 	carro.add(cameraCar);
 	render();
