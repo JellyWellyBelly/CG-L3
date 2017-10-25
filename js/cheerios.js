@@ -77,6 +77,7 @@ class Cheerio extends MovableObject {
 
     if (this._currentSpeed >= 0.5) {
         this._currentSpeed = this._currentSpeed - this._friction*dt;
+        this._mesh.translateOnAxis(this._vec, this._currentSpeed * dt);
       }
 
       else {
