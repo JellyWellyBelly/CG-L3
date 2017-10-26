@@ -81,4 +81,8 @@ class Track {
   getAllCheerios() {
 	return this._list;
   }
+	
+  getStart() {
+  	return this._start;
+  }
 }
