@@ -102,6 +102,8 @@ function createScene() {
 	scene.add(butter3.getMesh());
 	scene.add(butter4.getMesh());
 	scene.add(butter5.getMesh());
+	
+	scene.add(track.getStart());
 }
 
 
