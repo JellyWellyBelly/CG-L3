@@ -88,6 +88,7 @@ class CarMouse extends MovableObject {
 		
 		/* Collides with Cheerio */
 		else if (collision instanceof Cheerio) {
+
 			var vec = new THREE.Vector3();
 			var v0 = this._currentSpeed;
 			

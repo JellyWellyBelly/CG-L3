@@ -12,7 +12,7 @@ class Track {
 	var ratio = 1.5;
 
 	this.addHorizontalLine(-450, -400, height, 325, 680, ratio);
-	this.addHorizontalLine(-300, -250, height, -150, 200, ratio);
+	this.addHorizontalLine(-300, -250, height, -170, 180, ratio);
 	this.addHorizontalLine(350, 400, height, 80, 80, ratio);
 	this.addHorizontalLine(-300, -250, height, 340, 100, ratio);
 	this.addHorizontalLine(-50, 0, height, 330, 80, ratio);
@@ -25,7 +25,7 @@ class Track {
 	this.addCircle(50, height, 350, Math.PI / 2, 3 * Math.PI / 2, 50, 100, ratio);
 	this.addCircle(-150, height, 250, -Math.PI / 2, Math.PI / 2, 100, 150, ratio);
 	this.addCircle(-350, height, 350, Math.PI / 2, 3 * Math.PI / 2, 50, 100, ratio);
-	  
+
 	var geometry = new THREE.TorusGeometry(50, 1, 8, 6, Math.PI);
 	var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
 	var torus1 = new THREE.Mesh(geometry, material);
@@ -81,7 +81,7 @@ class Track {
   getAllCheerios() {
 	return this._list;
   }
-	
+
   getStart() {
   	return this._start;
   }

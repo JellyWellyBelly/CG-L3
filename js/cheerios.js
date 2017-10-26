@@ -44,19 +44,16 @@ class Cheerio extends MovableObject {
 
     collision = super.checkCollision(this, scene_elements); /* Checks collision */
     
-    this._mesh.position.set(posX, posY, posZ);  /* Brings the position back to the current frame */
-    this._mesh.rotation.set(rotX, rotY, rotZ);  /* Brings the rotation back to the current frame */
 
-    if (collision == null) {
-      this.movementWithNoCollision(dt);
-    }
-
-    else {
+    if (collision instanceof Cheerio || collision instanceof CarMouse) {
+      this._mesh.rotation.set(rotX, rotY, rotZ);  /* Brings the rotation back to the current frame */
+      this._mesh.position.set(posX, posY, posZ);  /* Brings the position back to the current frame */
       this.movementWithCollision(collision, dt);
     }
   }
-  movementWithCollision(collision, dt) {
 
+  movementWithCollision(collision, dt) {
+    
     if (collision instanceof Cheerio) {
       var vecAux = new THREE.Vector3();
       
@@ -66,15 +63,13 @@ class Cheerio extends MovableObject {
       this._currentSpeed = this._currentSpeed * 0.8;
 
       vecAux.subVectors(cheerio1_pos, cheerio0_pos);
-      
 
       collision.startMoving(this._currentSpeed, vecAux, dt); // Ambos os Cheerios ficam com 0.8 da velocidade do original
-
     }
-
   }
-  movementWithNoCollision(dt) {
 
+  movementWithNoCollision(dt) {
+  
     if (this._currentSpeed >= 0.5) {
         this._currentSpeed = this._currentSpeed - this._friction*dt;
         this._mesh.translateOnAxis(this._vec, this._currentSpeed * dt);
@@ -88,7 +83,6 @@ class Cheerio extends MovableObject {
 
   }
 
-
   startMoving(velocity, vec, dt) {
       vec.y = vec.z;  // Como os cheerios estao rodados 90 graus em XX temos de mudar o vetor
       vec.z = 0;
@@ -97,6 +91,4 @@ class Cheerio extends MovableObject {
 
       this._currentSpeed = velocity;   
   }
-    
-
 }

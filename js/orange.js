@@ -40,7 +40,6 @@ class Orange extends MovableObject {
         var rotMesh = this._rotMesh;
         var size = this._size;
         var dt = this._clock.getElapsedTime();
-        var angle = this._turningAngle;
         var visible = this._visible;
 
         if(dt <= 15) {                   // orange LV1
@@ -55,7 +54,7 @@ class Orange extends MovableObject {
             v0 = 60 / size;
         }
 
-        if((Math.abs((transMesh.position.x) + v0 * Math.cos(angle)) > 500 || Math.abs((transMesh.position.z) + v0 * Math.sin(angle)) > 500) && visible) {
+        if((Math.abs(transMesh.position.x) > 500 || Math.abs(transMesh.position.z) > 500) && visible) {
             visible = false;
             transMesh.visible = visible;
             this._visible = visible;
