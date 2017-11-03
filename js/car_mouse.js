@@ -34,6 +34,10 @@ class CarMouse extends MovableObject {
 
 		car.position.set(x, y + size / 8, z);
 
+		var geo2 = this.create_sphere(/*car, */2 * size, Math.PI /2, 30, 30);
+		var mat2 = new THREE.MeshBasicMaterial({color: 0x009933});
+		var mesh2 = new THREE.Mesh(geo2, mat2);
+		car.add(mesh2);
 	}
 
 	update(scene_elements) {
@@ -251,5 +255,113 @@ class CarMouse extends MovableObject {
 		mesh.position.set(x, y, z);
 
 		obj.add(mesh);
+	}
+
+	create_sphere (/*car, */r, phase_f, n_levels, n_vertices) {
+		var geometry = new THREE.Geometry();
+		var i, j;
+		var vert;
+		var first, last;
+		
+		for(i = 0; i <= phase_f; i += phase_f / (n_levels - 1)) {  // primeira parte -> calcular as coordenadas dos pontos a utilizar
+			if(i == 0 || i == Math.PI) {                          // se for o ponto mais alto/baixo de uma esfera,
+				vert = new THREE.Vector3(0, r * Math.cos(i), 0);  // nao precisa entrar no segundo for
+				geometry.vertices.push(vert);
+
+
+/*				var geo = new THREE.SphereGeometry(0.5, 16, 16, 0, 2*Math.PI);
+				var material = new THREE.MeshBasicMaterial({color: 0xffffff});
+				var mesh = new THREE.Mesh(geo, material);
+				mesh.position.set(0, r * Math.cos(i), 0);
+				car.add(mesh);*/
+			}
+
+			else {
+				for(j = 0; j < 2 * Math.PI; j += (2 * Math.PI) / n_vertices) {
+					vert = new THREE.Vector3(r * Math.sin(i) * Math.cos(j), r * Math.cos(i), r * Math.sin(i) * Math.sin(j));
+					geometry.vertices.push(vert);
+
+/*					var geo = new THREE.SphereGeometry(0.5, 16, 16, 0, 2*Math.PI);
+					var material = new THREE.MeshBasicMaterial({color: 0xffffff});
+					var mesh = new THREE.Mesh(geo, material);
+					mesh.position.set(r * Math.sin(i) * Math.cos(j), r * Math.cos(i), r * Math.sin(i) * Math.sin(j));
+					car.add(mesh);*/
+				}
+			}
+		}
+
+		if(phase_f == Math.PI / 2) {                                      // caso seja uma semi-esfera, acrescenta o centro da circunferencia da base
+			vert = new THREE.Vector3(0, 0, 0);
+			geometry.vertices.push(vert);
+		}
+
+		for(i = 1; i < n_levels; i++) {                                   // segunda parte -> criar os triangulos
+			if(i == n_levels - 1) {                                       // trata apenas do ultimo nivel
+				last = (i - 1) * n_vertices + 1;
+				
+				for(j = 0; j < n_vertices; j++) {
+					first = ((i - 2) * n_vertices) + (j + 1);
+					
+					if(j == n_vertices - 1) {
+						geometry.faces.push(new THREE.Face3(last, first, first - j));
+					}
+
+					else {
+						geometry.faces.push(new THREE.Face3(last, first, first + 1));
+					}
+				}
+			}
+
+			else {
+				for(j = 0; j < n_vertices; j++) {
+					first = ((i - 1) * n_vertices) + (j + 1);
+
+					if(i == 1) {                                          // caso esteja no nivel 1, ou seja, esteja na primeira circunferencia (nivel 0 -> ponto mais alto)
+						if(j == n_vertices - 1) {                         // caso esteja no ultimo vertice do primeiro nivel
+							geometry.faces.push(new THREE.Face3(first, 0, first - j));
+						}
+						else {                                            // vertices restantes do primeiro nivel
+							geometry.faces.push(new THREE.Face3(first, 0, first + 1));
+						}
+					}
+
+					else {                                                // niveis restantes
+						if(j == n_vertices - 1) {                         // caso esteja no ultimo vertice de cada nivel
+							geometry.faces.push(new THREE.Face3(first, first - n_vertices, first - j));                
+							geometry.faces.push(new THREE.Face3(first, first - n_vertices - 1, first - n_vertices));
+						}
+						else if(j == 0) {                                 // caso esteja no primeiro vertice de cada nivel
+							geometry.faces.push(new THREE.Face3(first, first - n_vertices, first + 1));
+							geometry.faces.push(new THREE.Face3(first, first - 1, first - n_vertices));
+						}
+						else {                                            // vertices restantes de cada nivel
+							geometry.faces.push(new THREE.Face3(first, first - n_vertices, first + 1));
+							geometry.faces.push(new THREE.Face3(first, first - n_vertices - 1, first - n_vertices));
+						}
+					}
+				}
+			}
+		}
+
+/*		if(phase_f == Math.PI / 2) {
+			vert = new THREE.Vector3(0, 0, 0);  // nao precisa entrar no segundo for
+			geometry.vertices.push(vert);
+
+			first = ((n_levels - 1) * n_vertices) + (j + 1);
+			last = geometry.vertices.length - 1;
+
+			for(i = 0; i < n_vertices; i++) {
+				if(i == n_vertices - 1) {
+					geometry.faces.push(new THREE.Face3(last, first - n_vertices - 1, first - n_vertices));
+				}
+				else {
+					geometry.faces.push(new THREE.Face3(last, first - n_vertices - 1, first - n_vertices));
+				}
+			}
+		}*/
+
+
+//		console.log(geometry.vertices);
+		return geometry;
 	}
 }

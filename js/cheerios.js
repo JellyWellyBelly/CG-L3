@@ -43,7 +43,6 @@ class Cheerio extends MovableObject {
     this.movementWithNoCollision(dt); /* Moves the object to see if there is collision */
 
     collision = super.checkCollision(this, scene_elements); /* Checks collision */
-    
 
     if (collision instanceof Cheerio || collision instanceof CarMouse) {
       this._mesh.rotation.set(rotX, rotY, rotZ);  /* Brings the rotation back to the current frame */

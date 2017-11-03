@@ -12,6 +12,8 @@ var cameraInUse;
 var carSize = 5;
 
 
+var controls;
+
 
 function onResize() {
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -104,6 +106,8 @@ function createScene() {
 	scene.add(butter5.getMesh());
 
 	scene.add(track.getStart());
+
+	scene.add(new THREE.AxisHelper(50));
 }
 
 
@@ -119,7 +123,6 @@ function createCameraOrt() {
 
 
 function createCameraPresp() {
-	'use strict';
 	cameraPresp = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 1500)
 
 	onResize();
@@ -130,7 +133,6 @@ function createCameraPresp() {
 }
 
 function createCameraCar() {
-	'use strict';
 	cameraCar = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 1, 1000)
 
 	cameraCar.position.set(- carSize * 10, carSize * 4, 0); 
@@ -217,14 +219,14 @@ function init() {
 	cameraInUse = cameraOrt;
 	var carro = carMouse.getMesh();
 	carro.add(cameraCar);
-	render();
-
 
 	window.addEventListener("resize", onResize);
 	window.addEventListener("keydown", onKeyDown);
 	window.addEventListener("keyup", onKeyUp);
 	window.addEventListener("keypress", onKeyPress);
 	
+
+	controls = new THREE.OrbitControls(cameraInUse);
 }
 
 function render() {
@@ -242,4 +244,6 @@ function animate() {
 	update();
 	render();
 	requestAnimationFrame(animate);
+
+	controls.update();
 }
