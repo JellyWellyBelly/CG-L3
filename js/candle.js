@@ -8,9 +8,12 @@ class Candle extends MovableObject {
 
 		super(0, 0, 0, 0, 0, 0, size, candle, size);
 
+		this._pointLightSource = new THREE.PointLight();
+
 		this.addCandleBody(candle, size);
 		this.addString(candle, size);
 		this.addFIRE(candle, size);
+
 
 		candle.position.set(x, y, z);
 	}
@@ -45,6 +48,8 @@ class Candle extends MovableObject {
 		light.position.set(0, size*8, 0);
 		mesh.position.set(0,size*7, 0);
 		
+		this._lightSource = light;
+
 		obj.add(mesh);
 		obj.add(light);
 	}
