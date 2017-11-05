@@ -8,7 +8,8 @@ class Candle extends MovableObject {
 
 		super(0, 0, 0, 0, 0, 0, size, candle, size);
 
-		this._pointLightSource = new THREE.PointLight();
+		this._pointLightSource = null; /* Creates light source in the addFIRE function*/
+		this._switch = "ON";
 
 		this.addCandleBody(candle, size);
 		this.addString(candle, size);
@@ -52,5 +53,17 @@ class Candle extends MovableObject {
 
 		obj.add(mesh);
 		obj.add(light);
+	}
+
+	flipLight() {
+
+		if(this._switch.localeCompare("ON") == 0){
+			this._switch = "OFF";
+			this._lightSource.distance = 0.001;
+		}
+		else {
+			this._switch = "ON";
+			this._lightSource.distance = 300;
+		}
 	}
 }
