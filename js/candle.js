@@ -43,7 +43,7 @@ class Candle extends MovableObject {
 		var light = new THREE.PointLight(0xff8800, 5, 300, 2);
 
 		var geometry = new THREE.SphereGeometry(size/4);
-		var material = new THREE.MeshBasicMaterial( {color: 0xff8800} );
+		var material = new THREE.MeshPhongMaterial( {color: 0xff8800} );
 		var mesh = new THREE.Mesh( geometry, material );
 
 		light.position.set(0, size*8, 0);
