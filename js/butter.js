@@ -11,6 +11,9 @@ class Butter extends MovableObject {
   	this.addBase(butter, size, x, y, z);
     this.addButter(butter, size, x, y, z);
 
+    butter.castShadow = true;
+    butter.receiveShadow = false;
+
     butter.position.set(x,y,z);
   }
 
