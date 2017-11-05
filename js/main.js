@@ -2,16 +2,16 @@
 
 //Made by script wizards
 
-var cameraPresp, cameraOrt, cameraCar, scene, renderer, elem;
+var cameraPresp, cameraOrt, cameraCar, scene, renderer, elem, obj, mesh;
 var window_ratio;
-var scene_size = 510;
+var scene_size = 550;
 var scene_elements = [];
 var carMouse;   //so the eventListener know wich car to update the flags
 var frame = false;
 var cameraInUse;
 var carSize = 5;
 var sun;
-var skycolor = 0x23aaff;
+var skycolor = 0x23aaff; // azul clarinho
 
 //var controls;
 
@@ -128,6 +128,8 @@ function createScene() {
 
 	scene.add(track.getStart());
 
+	scene.add(track.getFloor());
+
 	scene.add(sun);
 	//scene.add(new THREE.AxisHelper(50));
 }
@@ -240,7 +242,27 @@ function onKeyPress(e) {
 
 	case 71: //G
 	case 103: //g
-		//use this to toggle between Phong and Lambert lighting
+		for(var i = 0; i < scene_elements.length; i++) {
+			var newMaterial;
+			elem = scene_elements[i];
+			obj = elem.getMesh(); /* Gets every object3D added to the scene */
+
+			for (var j = obj.children.length - 1; j >= 0; j--) {	/* For each object it swaps the mesh to a different one */
+				
+				if(obj.children[j].isMesh == true) {
+					mesh = obj.children[j];
+
+					if(mesh.material.isMeshLambertMaterial == true) {
+						newMaterial = new THREE.MeshPhongMaterial({color: mesh.material.color});
+						mesh.material = newMaterial;
+					}
+					else if(mesh.material.isMeshPhongMaterial == true) {
+						newMaterial = new THREE.MeshLambertMaterial({color: mesh.material.color});
+						mesh.material = newMaterial;
+					}
+				}
+			}
+		}
 		break;
 	
 	// toggles candles
