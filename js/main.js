@@ -11,6 +11,7 @@ var frame = false;
 var cameraInUse;
 var carSize = 5;
 var sun;
+var skycolor = 0x23aaff;
 
 //var controls;
 
@@ -57,7 +58,7 @@ function onResize() {
 function createScene() {
 	scene = new THREE.Scene();
 	carMouse = new CarMouse(carSize, 0, 0, -75);
-	sun = new DirectionalLight().create_light(500, 1000, 0); 
+	sun = new DirectionalLight().create_light(50, 100, 0); 
 
 	var table = new Table(1000);
 	var track = new Track();
@@ -100,11 +101,11 @@ function createScene() {
 	scene.add(table.create_table());
 	track.create_track();
 
-	// var cheerioList = track.getAllCheerios();
-	// for(var i = 0; i < cheerioList.length; i++) {
-	// 	scene.add(cheerioList[i].getMesh());
-	// 	scene_elements.push(cheerioList[i]);
-	// }
+	var cheerioList = track.getAllCheerios();
+	for(var i = 0; i < cheerioList.length; i++) {
+		scene.add(cheerioList[i].getMesh());
+		scene_elements.push(cheerioList[i]);
+	}
 
 	scene.add(carMouse.getMesh());
 
@@ -224,9 +225,11 @@ function onKeyPress(e) {
 	case 110: //n
 		if (sun.intensity == 0) {
 			sun.intensity = 1;
+			skycolor = 0x23aaff;
 		}
 		else {
 			sun.intensity = 0;
+			skycolor = 0x000000;
 		}
 		break;
 
@@ -257,6 +260,7 @@ function onKeyPress(e) {
 function init() {
 	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setSize(window.innerWidth, window.innerHeight);
+	renderer.setClearColor (skycolor, 1);
 
 	document.body.appendChild(renderer.domElement);
 
@@ -280,6 +284,7 @@ function init() {
 
 function render() {
 	renderer.render(scene, cameraInUse);
+	renderer.setClearColor (skycolor, 1);
 }
 
 function update() {
