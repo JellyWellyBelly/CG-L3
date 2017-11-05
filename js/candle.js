@@ -49,6 +49,8 @@ class Candle extends MovableObject {
 		light.position.set(0, size*8, 0);
 		mesh.position.set(0,size*7, 0);
 		
+		light.castShadow = true;
+		
 		this._lightSource = light;
 
 		obj.add(mesh);
