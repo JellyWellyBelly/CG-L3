@@ -13,7 +13,7 @@ class Cheerio extends MovableObject {
     this._vec = new THREE.Vector3(); // Vetor de direcao do cheerio
 
     var geometry = new THREE.TorusGeometry(2 * height, height, 10, 10, Math.PI * 2);
-    var material = new THREE.MeshBasicMaterial({color: 0xf2c763});
+    var material = new THREE.MeshPhongMaterial({color: 0xf2c763});
     var mesh = new THREE.Mesh(geometry, material);
     
     cheerio.add(mesh);
