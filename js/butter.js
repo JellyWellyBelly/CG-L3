@@ -22,7 +22,7 @@ class Butter extends MovableObject {
 
   addBase(obj, size, x, y, z) {
     var geometry = new THREE.BoxGeometry(size, size / 4, 2 * size);
-    var material = new THREE.MeshLambertMaterial({color: 0x6d4e04, wireframe: false});
+    var material = new THREE.MeshPhongMaterial({color: 0x6d4e04, wireframe: false});
     var mesh = new THREE.Mesh(geometry, material);
 
     mesh.position.set(0, size / 8, 0);
@@ -33,7 +33,7 @@ class Butter extends MovableObject {
 
   addButter(obj, size, x, y, z) {
     var geometry = new THREE.BoxGeometry(0.8 * size, 0.4 * size, 1.25 * size);
-    var material = new THREE.MeshLambertMaterial( {color: 0xefea83, wireframe: false});
+    var material = new THREE.MeshPhongMaterial( {color: 0xefea83, wireframe: false});
     var mesh = new THREE.Mesh(geometry, material);
 
     mesh.position.set(0, size / 4 + 0.2 * size , 0.3 * size);
