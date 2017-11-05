@@ -10,9 +10,9 @@ var carMouse;   //so the eventListener know wich car to update the flags
 var frame = false;
 var cameraInUse;
 var carSize = 5;
+var sun;
 
-
-var controls;
+//var controls;
 
 
 function onResize() {
@@ -57,9 +57,9 @@ function onResize() {
 function createScene() {
 	scene = new THREE.Scene();
 	carMouse = new CarMouse(carSize, 0, 0, -75);
+	sun = new DirectionalLight().create_light(500, 1000, 0); 
 
 	var table = new Table(1000);
-	//var light = new DirectionalLight();
 	var track = new Track();
 	var orange1 = new Orange(10, 50, 0, 300);
 	var orange2 = new Orange(15, 100, 0, -200);
@@ -70,6 +70,14 @@ function createScene() {
 	var butter3 = new Butter(30, 50, 0, 350);
 	var butter4 = new Butter(30, -200, 0, -150);
 	var butter5 = new Butter(30, 0, 0, 0);
+
+	var candle1 = new Candle(12, 250, 0, 50);
+	var candle2 = new Candle(20, 250, 0, 350);
+	var candle3 = new Candle(15, -150, 0, 250);
+	var candle4 = new Candle(10, -100, 0, -200);
+	var candle5 = new Candle(8, -300, 0, 0);
+	var candle6 = new Candle(11, -350, 0, 350);
+
 	
 	scene_elements.push(carMouse);
 	scene_elements.push(butter1);
@@ -82,16 +90,21 @@ function createScene() {
 	scene_elements.push(orange2);
 	scene_elements.push(orange3);
 
+	scene_elements.push(candle1);
+	scene_elements.push(candle2);
+	scene_elements.push(candle3);
+	scene_elements.push(candle4);
+	scene_elements.push(candle5);
+	scene_elements.push(candle6);	
+
 	scene.add(table.create_table());
 	track.create_track();
 
-	var cheerioList = track.getAllCheerios();
-	for(var i = 0; i < cheerioList.length; i++) {
-		scene.add(cheerioList[i].getMesh());
-		scene_elements.push(cheerioList[i]);
-	}
-	
-	//scene.add(light.create_light(500, 1000, 0));
+	// var cheerioList = track.getAllCheerios();
+	// for(var i = 0; i < cheerioList.length; i++) {
+	// 	scene.add(cheerioList[i].getMesh());
+	// 	scene_elements.push(cheerioList[i]);
+	// }
 
 	scene.add(carMouse.getMesh());
 
@@ -105,9 +118,17 @@ function createScene() {
 	scene.add(butter4.getMesh());
 	scene.add(butter5.getMesh());
 
+	scene.add(candle1.getMesh());
+	scene.add(candle2.getMesh());
+	scene.add(candle3.getMesh());
+	scene.add(candle4.getMesh());
+	scene.add(candle5.getMesh());
+	scene.add(candle6.getMesh());
+
 	scene.add(track.getStart());
 
-	scene.add(new THREE.AxisHelper(50));
+	scene.add(sun);
+	//scene.add(new THREE.AxisHelper(50));
 }
 
 
@@ -123,7 +144,7 @@ function createCameraOrt() {
 
 
 function createCameraPresp() {
-	cameraPresp = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 1500)
+	cameraPresp = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 3000);
 
 	onResize();
 	cameraPresp.position.x = -600;
@@ -133,7 +154,7 @@ function createCameraPresp() {
 }
 
 function createCameraCar() {
-	cameraCar = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 1, 1000)
+	cameraCar = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 1, 1000);
 
 	cameraCar.position.set(- carSize * 10, carSize * 4, 0); 
 	cameraCar.rotation.set(0, -Math.PI/2, 0);
@@ -186,21 +207,37 @@ function onKeyPress(e) {
 		});
 		break;
 
-	case 49:
+	case 49: // 1
 		cameraInUse = cameraOrt;
-		render();
 		break;
 
-	case 50:
+	case 50: // 2
 		cameraInUse = cameraPresp;
-		render();
 		break;
 
-	case 51:
+	case 51: // 3
 		cameraInUse = cameraCar
-		render();
 		break;
 
+	case 78: //N
+	case 110: //n
+		//use this to toggle sun
+		break;
+
+	case 76: //L
+	case 108: //l
+		//use this to toggle light calculation
+		break;
+
+	case 71: //G
+	case 103: //g
+		//use this to toggle between Phong and Lambert lighting
+		break;
+
+	case 67: //C
+	case 99: //c
+		//use this to toggle all the candles
+		break;
 	}
 
 }
@@ -226,7 +263,7 @@ function init() {
 	window.addEventListener("keypress", onKeyPress);
 	
 
-	controls = new THREE.OrbitControls(cameraInUse);
+//	controls = new THREE.OrbitControls(cameraInUse);
 }
 
 function render() {
@@ -245,5 +282,5 @@ function animate() {
 	render();
 	requestAnimationFrame(animate);
 
-	controls.update();
+//	controls.update();
 }

@@ -35,7 +35,7 @@ class CarMouse extends MovableObject {
 		car.position.set(x, y + size / 8, z);
 
 		var geo2 = this.create_sphere(/*car, */2 * size, Math.PI /2, 30, 30);
-		var mat2 = new THREE.MeshBasicMaterial({color: 0x009933});
+		var mat2 = new THREE.MeshPhongMaterial({color: 0x009933});
 		var mesh2 = new THREE.Mesh(geo2, mat2);
 		car.add(mesh2);
 	}
