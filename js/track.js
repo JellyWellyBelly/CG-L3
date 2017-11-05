@@ -27,7 +27,7 @@ class Track {
 	this.addCircle(-350, height, 350, Math.PI / 2, 3 * Math.PI / 2, 50, 100, ratio);
 
 	var geometry = new THREE.TorusGeometry(50, 1, 8, 6, Math.PI);
-	var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+	var material = new THREE.MeshPhongMaterial( { color: 0xffff00 } );
 	var torus1 = new THREE.Mesh(geometry, material);
 
 	torus1.position.set(10, 0, -75);
