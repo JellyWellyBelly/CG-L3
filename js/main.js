@@ -85,6 +85,7 @@ function createScene() {
 	
 	scene_elements.push(carMouse);
 	scene_elements.push(track.getStart());
+	scene_elements.push(table);
 	
 	scene_elements.push(butter1);
 	scene_elements.push(butter2);
