@@ -233,10 +233,16 @@ function onKeyPress(e) {
 	case 103: //g
 		//use this to toggle between Phong and Lambert lighting
 		break;
-
+	
+	// toggles candles
 	case 67: //C
 	case 99: //c
-		//use this to toggle all the candles
+		for(var i = 0; i < scene_elements.length; i++) {
+			elem = scene_elements[i];
+			if(elem instanceof Candle) {
+				elem.flipLight();
+			}
+		}
 		break;
 	}
 
