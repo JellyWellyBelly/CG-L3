@@ -12,6 +12,7 @@ var cameraInUse;
 var carSize = 5;
 var sun;
 var skycolor = 0x23aaff; // azul clarinho
+var globalMaterialType;
 
 //var controls;
 
@@ -128,6 +129,14 @@ function createScene() {
 
 	scene.add(track.getStart());
 
+
+
+	var floorList = track.getFloor();
+
+	for(var i = 0; i < floorList.length; i++) {
+		scene.add(floorList[i]);
+	}
+
 	scene.add(sun);
 	//scene.add(new THREE.AxisHelper(50));
 }
@@ -235,7 +244,34 @@ function onKeyPress(e) {
 
 	case 76: //L
 	case 108: //l
-		//use this to toggle light calculation
+		for(var i = 0; i < scene_elements.length; i++) {
+			var newMaterial;
+			elem = scene_elements[i];
+			obj = elem.getMesh(); /* Gets every object3D added to the scene */
+
+			for (var j = obj.children.length - 1; j >= 0; j--) {	/* For each object it swaps the mesh to a different one */
+				
+				if(obj.children[j].isMesh == true) {
+					mesh = obj.children[j];
+
+					if(mesh.material.isMeshBasicMaterial == true) {
+						if(globalMaterialType.localeCompare("PHONG") == 0){
+							newMaterial = new THREE.MeshPhongMaterial({color: mesh.material.color});
+							mesh.material = newMaterial;
+						}
+						else {
+							newMaterial = new THREE.MeshLambertMaterial({color: mesh.material.color});
+							mesh.material = newMaterial;
+						}
+					}
+					else {
+						newMaterial = new THREE.MeshBasicMaterial({color: mesh.material.color});
+						mesh.material = newMaterial;
+					}
+				}
+			}
+		}
+		
 		break;
 
 	case 71: //G
@@ -253,10 +289,12 @@ function onKeyPress(e) {
 					if(mesh.material.isMeshLambertMaterial == true) {
 						newMaterial = new THREE.MeshPhongMaterial({color: mesh.material.color});
 						mesh.material = newMaterial;
+						globalMaterialType = "PHONG";
 					}
 					else if(mesh.material.isMeshPhongMaterial == true) {
 						newMaterial = new THREE.MeshLambertMaterial({color: mesh.material.color});
 						mesh.material = newMaterial;
+						globalMaterialType ="LAMBERT";
 					}
 				}
 			}
