@@ -108,6 +108,8 @@ function createScene() {
 		scene_elements.push(cheerioList[i]);
 	}
 
+	scene_elements.push(track.getStart());
+
 	scene.add(carMouse.getMesh());
 
 	scene.add(orange1.getMesh());
@@ -127,7 +129,7 @@ function createScene() {
 	scene.add(candle5.getMesh());
 	scene.add(candle6.getMesh());
 
-	scene.add(track.getStart());
+	scene.add(track.getStart().getMesh());
 
 
 
