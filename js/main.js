@@ -250,32 +250,57 @@ function onKeyPress(e) {
 	case 108: //l
 		for(var i = 0; i < scene_elements.length; i++) {
 			var newMaterial;
+			var meshList;
+
 			elem = scene_elements[i];
 			obj = elem.getMesh(); /* Gets every object3D added to the scene */
 
-			for (var j = obj.children.length - 1; j >= 0; j--) {	/* For each object it swaps the mesh to a different one */
-				
-				if(obj.children[j].isMesh == true) {
-					mesh = obj.children[j];
+			if(elem instanceof Orange) { /* Oranges have a special treatment in terms of mesh composition. */
 
-					if(mesh.material.isMeshBasicMaterial == true) {
-						if(globalMaterialType.localeCompare("PHONG") == 0){
-							newMaterial = new THREE.MeshPhongMaterial({color: mesh.material.color});
-							mesh.material = newMaterial;
+				meshList = elem.getAllMeshs();
+
+				for(var x = 0; x < meshList.length; x++) {
+					if(meshList[x].material.isMeshBasicMaterial == true) {
+						if(globalMaterialType.localeCompare("PHONG") == 0) {
+							newMaterial = new THREE.MeshPhongMaterial({color: meshList[x].material.color});
+							meshList[x].material = newMaterial;
 						}
 						else {
-							newMaterial = new THREE.MeshLambertMaterial({color: mesh.material.color});
-							mesh.material = newMaterial;
+							newMaterial = new THREE.MeshLambertMaterial({color: meshList[x].material.color});
+							meshList[x].material = newMaterial;
 						}
 					}
-					else if ((mesh.material.isMeshLambertMaterial == true) || (mesh.material.isMeshPhongMaterial == true)) {
-						newMaterial = new THREE.MeshBasicMaterial({color: mesh.material.color});
-						mesh.material = newMaterial;
+
+					else {
+						newMaterial = new THREE.MeshBasicMaterial({color: meshList[x].material.color});
+						meshList[x].material = newMaterial;
+					}
+				}
+			}
+			else {
+				for (var j = obj.children.length - 1; j >= 0; j--) {	/* For each object it swaps the mesh to a different one */
+					
+					if(obj.children[j].isMesh == true) {
+						mesh = obj.children[j];
+
+						if(mesh.material.isMeshBasicMaterial == true) {
+							if(globalMaterialType.localeCompare("PHONG") == 0){
+								newMaterial = new THREE.MeshPhongMaterial({color: mesh.material.color});
+								mesh.material = newMaterial;
+							}
+							else {
+								newMaterial = new THREE.MeshLambertMaterial({color: mesh.material.color});
+								mesh.material = newMaterial;
+							}
+						}
+						else if ((mesh.material.isMeshLambertMaterial == true) || (mesh.material.isMeshPhongMaterial == true)) {
+							newMaterial = new THREE.MeshBasicMaterial({color: mesh.material.color});
+							mesh.material = newMaterial;
+						}
 					}
 				}
 			}
 		}
-		
 		break;
 
 	case 71: //G

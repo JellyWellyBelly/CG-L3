@@ -8,10 +8,10 @@ class Orange extends MovableObject {
     super(10000,0,0,0,0,0, size, orange, size);
 
     var geometry = new THREE.SphereGeometry(size*0.5, 10, 10, 0);
-    var material = new THREE.MeshLambertMaterial({color: 0xed862d, wireframe: false, visible: false});
+    var material = new THREE.MeshPhongMaterial({color: 0xed862d, wireframe: false, visible: false});
     var mesh1 = new THREE.Mesh(geometry, material);                 // responsavel pelas translações
     geometry = new THREE.SphereGeometry(size, 10, 10, 0);
-    material = new THREE.MeshLambertMaterial({color: 0xed862d, wireframe: false});
+    material = new THREE.MeshPhongMaterial({color: 0xed862d, wireframe: false});
     var mesh2 = new THREE.Mesh(geometry, material);                 // responsavel pelas rotações
     
     geometry = new THREE.CylinderGeometry(size / 8, size / 8, size / 6);
@@ -33,6 +33,11 @@ class Orange extends MovableObject {
     this._spawnY = y + size;
     this._spawnZ = z;
     this._visible = true;
+    
+    this._meshList = []
+    this._meshList.push(mesh);
+    this._meshList.push(mesh1);
+    this._meshList.push(mesh2);
   }
 
     update() {
@@ -116,6 +121,10 @@ class Orange extends MovableObject {
         this._spawnX = x;
         this._mesh = transMesh;
         this._visible = true;
+    }
+
+    getAllMeshs() {
+        return this._meshList;
     }
 }
 
