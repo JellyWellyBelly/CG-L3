@@ -80,8 +80,12 @@ function createScene() {
 	var candle5 = new Candle(8, -300, 0, 0);
 	var candle6 = new Candle(11, -350, 0, 350);
 
+	track.create_track();
+
 	
 	scene_elements.push(carMouse);
+	scene_elements.push(track.getStart());
+	
 	scene_elements.push(butter1);
 	scene_elements.push(butter2);
 	scene_elements.push(butter3);
@@ -99,8 +103,6 @@ function createScene() {
 	scene_elements.push(candle5);
 	scene_elements.push(candle6);	
 
-	scene.add(table.create_table());
-	track.create_track();
 
 	var cheerioList = track.getAllCheerios();
 	for(var i = 0; i < cheerioList.length; i++) {
@@ -108,9 +110,9 @@ function createScene() {
 		scene_elements.push(cheerioList[i]);
 	}
 
-	scene_elements.push(track.getStart());
 
 	scene.add(carMouse.getMesh());
+	scene.add(table.getMesh());
 
 	scene.add(orange1.getMesh());
 	scene.add(orange2.getMesh());
