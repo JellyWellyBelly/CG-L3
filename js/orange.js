@@ -7,14 +7,15 @@ class Orange extends MovableObject {
 
     super(10000,0,0,0,0,0, size, orange, size);
 
-    var geometry = new THREE.SphereGeometry(size, 10, 10, 0);
-    var material = new THREE.MeshPhongMaterial({color: 0xed862d, wireframe: false, visible: false});
+    var geometry = new THREE.SphereGeometry(size*0.5, 10, 10, 0);
+    var material = new THREE.MeshLambertMaterial({color: 0xed862d, wireframe: false, visible: false});
     var mesh1 = new THREE.Mesh(geometry, material);                 // responsavel pelas translações
-    material = new THREE.MeshPhongMaterial({color: 0xed862d, wireframe: false});
+    geometry = new THREE.SphereGeometry(size, 10, 10, 0);
+    material = new THREE.MeshLambertMaterial({color: 0xed862d, wireframe: false});
     var mesh2 = new THREE.Mesh(geometry, material);                 // responsavel pelas rotações
     
     geometry = new THREE.CylinderGeometry(size / 8, size / 8, size / 6);
-    material = new THREE.MeshPhongMaterial({color: 0x009933, wireframe: false});
+    material = new THREE.MeshLambertMaterial({color: 0x009933, wireframe: false});
     var mesh = new THREE.Mesh(geometry, material);
 
 

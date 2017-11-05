@@ -4,6 +4,7 @@ class Track {
 
   constructor() {
 	  this._list = [];
+	  this._floor = [];
   }
 
   create_track() {
@@ -40,6 +41,18 @@ class Track {
 	var cheerio1, cheerio2;
 	var i;
 	var list = this._list;
+	var floor = this._floor;
+
+	var geometry = new THREE.PlaneGeometry(size * 1.09, Math.abs(x1-x2));
+    var material = new THREE.MeshBasicMaterial({color: 0xffffff});
+    var plane = new THREE.Mesh(geometry, material);
+
+    
+    plane.rotation.x = -Math.PI / 2;
+    plane.rotation.z = Math.PI / 2;
+    plane.position.set((x1+x2)/2, 0.1, z-(size)/2);
+
+	floor.push(plane);
 
 	for(i = 0; i < size; i += 20) {
 		cheerio1 = new Cheerio(ratio * y, x1, y, z - i);
@@ -53,6 +66,17 @@ class Track {
 		var cheerio1, cheerio2;
 		var i;
 		var list = this._list;
+		var floor = this._floor;
+
+		var geometry = new THREE.PlaneGeometry(size * 1.09, Math.abs(z1-z2));
+	    var material = new THREE.MeshBasicMaterial({color: 0xffffff});
+	    var plane = new THREE.Mesh(geometry, material);
+
+	    
+	    plane.rotation.x = -Math.PI / 2;
+	    plane.position.set(x+(size)/2, 0.1, (z1+z2)/2);
+
+		floor.push(plane);
 
 		for(i = 0; i < size; i += 20) {
 			cheerio1 = new Cheerio(ratio * y, x + i, y, z1);
@@ -66,6 +90,18 @@ class Track {
 	var cheerio;
 	var i;
 	var list = this._list;
+	var floor = this._floor;
+
+	var geometry = new THREE.TorusGeometry((r2+r1)/2, (r2-r1)/2, 2, 10, phase_f - phase_i);
+    var material = new THREE.MeshBasicMaterial({color: 0xffffff});
+    var plane = new THREE.Mesh(geometry, material);
+
+    
+    plane.rotation.x = -Math.PI / 2;
+    plane.rotation.z = phase_i + Math.PI / 2;
+    plane.position.set(x, 0.1, z);
+
+	floor.push(plane);
 
 	for(i = phase_i; i < phase_f; i += (8 * Math.PI) / r1) {
 		cheerio = new Cheerio(ratio * y, x - r1 * Math.sin(i), y, z - r1 * Math.cos(i));
@@ -84,5 +120,9 @@ class Track {
 
   getStart() {
   	return this._start;
+  }
+
+  getFloor(){
+  	return this._floor;
   }
 }

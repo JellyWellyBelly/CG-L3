@@ -12,7 +12,7 @@ var cameraInUse;
 var carSize = 5;
 var sun;
 var skycolor = 0x23aaff; // azul clarinho
-var globalMaterialType;
+var globalMaterialType = "PHONG";
 
 //var controls;
 
@@ -264,7 +264,7 @@ function onKeyPress(e) {
 							mesh.material = newMaterial;
 						}
 					}
-					else {
+					else if ((mesh.material.isMeshLambertMaterial == true) || (mesh.material.isMeshPhongMaterial == true)) {
 						newMaterial = new THREE.MeshBasicMaterial({color: mesh.material.color});
 						mesh.material = newMaterial;
 					}
