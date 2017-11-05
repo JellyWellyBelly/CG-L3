@@ -219,9 +219,15 @@ function onKeyPress(e) {
 		cameraInUse = cameraCar
 		break;
 
+	//toggles sun
 	case 78: //N
 	case 110: //n
-		//use this to toggle sun
+		if (sun.intensity == 0) {
+			sun.intensity = 1;
+		}
+		else {
+			sun.intensity = 0;
+		}
 		break;
 
 	case 76: //L
