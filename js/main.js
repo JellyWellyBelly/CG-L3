@@ -263,17 +263,17 @@ function onKeyPress(e) {
 				for(var x = 0; x < meshList.length; x++) {
 					if(meshList[x].material.isMeshBasicMaterial == true) {
 						if(globalMaterialType.localeCompare("PHONG") == 0) {
-							newMaterial = new THREE.MeshPhongMaterial({color: meshList[x].material.color});
+							newMaterial = new THREE.MeshPhongMaterial({color: meshList[x].material.color, wireframe: frame});
 							meshList[x].material = newMaterial;
 						}
 						else {
-							newMaterial = new THREE.MeshLambertMaterial({color: meshList[x].material.color});
+							newMaterial = new THREE.MeshLambertMaterial({color: meshList[x].material.color, wireframe: frame});
 							meshList[x].material = newMaterial;
 						}
 					}
 
 					else {
-						newMaterial = new THREE.MeshBasicMaterial({color: meshList[x].material.color});
+						newMaterial = new THREE.MeshBasicMaterial({color: meshList[x].material.color, wireframe: frame});
 						meshList[x].material = newMaterial;
 					}
 				}
@@ -286,16 +286,16 @@ function onKeyPress(e) {
 
 						if(mesh.material.isMeshBasicMaterial == true) {
 							if(globalMaterialType.localeCompare("PHONG") == 0){
-								newMaterial = new THREE.MeshPhongMaterial({color: mesh.material.color});
+								newMaterial = new THREE.MeshPhongMaterial({color: mesh.material.color, wireframe: frame});
 								mesh.material = newMaterial;
 							}
 							else {
-								newMaterial = new THREE.MeshLambertMaterial({color: mesh.material.color});
+								newMaterial = new THREE.MeshLambertMaterial({color: mesh.material.color, wireframe: frame});
 								mesh.material = newMaterial;
 							}
 						}
 						else if ((mesh.material.isMeshLambertMaterial == true) || (mesh.material.isMeshPhongMaterial == true)) {
-							newMaterial = new THREE.MeshBasicMaterial({color: mesh.material.color});
+							newMaterial = new THREE.MeshBasicMaterial({color: mesh.material.color, wireframe: frame});
 							mesh.material = newMaterial;
 						}
 					}
@@ -317,12 +317,12 @@ function onKeyPress(e) {
 					mesh = obj.children[j];
 
 					if(mesh.material.isMeshLambertMaterial == true) {
-						newMaterial = new THREE.MeshPhongMaterial({color: mesh.material.color});
+						newMaterial = new THREE.MeshPhongMaterial({color: mesh.material.color, wireframe: frame});
 						mesh.material = newMaterial;
 						globalMaterialType = "PHONG";
 					}
 					else if(mesh.material.isMeshPhongMaterial == true) {
-						newMaterial = new THREE.MeshLambertMaterial({color: mesh.material.color});
+						newMaterial = new THREE.MeshLambertMaterial({color: mesh.material.color, wireframe: frame});
 						mesh.material = newMaterial;
 						globalMaterialType ="LAMBERT";
 					}
