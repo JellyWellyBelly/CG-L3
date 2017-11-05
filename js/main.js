@@ -128,8 +128,6 @@ function createScene() {
 
 	scene.add(track.getStart());
 
-	scene.add(track.getFloor());
-
 	scene.add(sun);
 	//scene.add(new THREE.AxisHelper(50));
 }
