@@ -6,7 +6,7 @@ class DirectionalLight {
   }
 
   create_light(x, y, z) {
-	var directionalLight = new THREE.DirectionalLight( 0xffffff, 1, 100);
+	var directionalLight = new THREE.DirectionalLight( 0xffffff, 1);
 
 	directionalLight.castShadow = true;
 
