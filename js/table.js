@@ -20,6 +20,7 @@ class Table {
     this.addLeg(table, size / 4, -size / 4);
     this.addLeg(table, -size / 4, size / 4);
     this.addLeg(table, -size / 4, -size / 4);
+    this.addFloor(table);
 
     table.receiveShadow = true;
 
@@ -36,5 +37,19 @@ class Table {
     leg.position.set(x, -(3 * height) / 2, z);
 
     table.add(leg);
+  }
+
+  addFloor(table) {
+    var height = this._size / 10;
+    
+    var geometry = new THREE.PlaneGeometry(3000, 3000);
+    var material = new THREE.MeshPhongMaterial({color: 0xaf7a1d});
+    var floor = new THREE.Mesh(geometry, material);
+
+    
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.set(0, -(3 * height), 0);
+
+    table.add(floor);
   }
 }
