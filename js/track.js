@@ -27,14 +27,7 @@ class Track {
 	this.addCircle(-150, height, 250, -Math.PI / 2, Math.PI / 2, 100, 150, ratio);
 	this.addCircle(-350, height, 350, Math.PI / 2, 3 * Math.PI / 2, 50, 100, ratio);
 
-	var geometry = new THREE.TorusGeometry(50, 1, 8, 6, Math.PI);
-	var material = new THREE.MeshPhongMaterial( { color: 0xffff00 } );
-	var torus1 = new THREE.Mesh(geometry, material);
-
-	torus1.position.set(10, 0, -75);
-	torus1.rotation.set(0, Math.PI / 2, 0);
-
-	this._start = torus1;
+	this._start = new Start(50);
   }
 
   addHorizontalLine(x1, x2, y, z, size, ratio) { // adiciona 2 linhas horizontais de cheerios à pista
@@ -44,7 +37,7 @@ class Track {
 	var floor = this._floor;
 
 	var geometry = new THREE.PlaneGeometry(size * 1.09, Math.abs(x1-x2));
-    var material = new THREE.MeshBasicMaterial({color: 0xffffff});
+    var material = new THREE.MeshPhongMaterial({color: 0xffffff});
     var plane = new THREE.Mesh(geometry, material);
 
     
@@ -69,7 +62,7 @@ class Track {
 		var floor = this._floor;
 
 		var geometry = new THREE.PlaneGeometry(size * 1.09, Math.abs(z1-z2));
-	    var material = new THREE.MeshBasicMaterial({color: 0xffffff});
+	    var material = new THREE.MeshPhongMaterial({color: 0xffffff});
 	    var plane = new THREE.Mesh(geometry, material);
 
 	    
@@ -93,7 +86,7 @@ class Track {
 	var floor = this._floor;
 
 	var geometry = new THREE.TorusGeometry((r2+r1)/2, (r2-r1)/2, 2, 10, phase_f - phase_i);
-    var material = new THREE.MeshBasicMaterial({color: 0xffffff});
+    var material = new THREE.MeshPhongMaterial({color: 0xffffff});
     var plane = new THREE.Mesh(geometry, material);
 
     
