@@ -11,20 +11,19 @@ class CarMouse extends MovableObject {
 		this._spawnPos = [x, y, z];
 
 		this.addCarBody(car, 0, 0, 0);
-		this.addCarBase(car, 0, 0, 0);
 		this.addMouth(car, size*Math.cos(Math.PI / 7) * 0.80, size * Math.sin(Math.PI / 7) * 0.80, 0); //polar coordinates
 
 		this.addEye(car, size * Math.sin(6 * Math.PI / 16) * Math.cos(5 * Math.PI / 16),	//spherical coordinates
-				         size * Math.sin(6 * Math.PI / 16) * Math.sin(5 * Math.PI / 16),
-					     size * Math.cos(6 * Math.PI / 16))
+		 		         size * Math.sin(6 * Math.PI / 16) * Math.sin(5 * Math.PI / 16),
+		 			     size * Math.cos(6 * Math.PI / 16));
 		this.addEye(car, size * Math.sin(10 * Math.PI / 16) *Math.cos(5 * Math.PI / 16), //spherical coordinates
-				     	 size * Math.sin(10 * Math.PI / 16) *Math.sin(5 * Math.PI / 16),
-					     size * Math.cos(10 * Math.PI / 16))
+		 		     	 size * Math.sin(10 * Math.PI / 16) *Math.sin(5 * Math.PI / 16),
+		 			     size * Math.cos(10 * Math.PI / 16));
 
 		this.addEar(car, 0, size * Math.sin(2 * Math.PI / 3), size * Math.cos(2 * Math.PI / 3)); //polar coordinates
 		this.addEar(car, 0, size * Math.sin(Math.PI / 3), size * Math.cos(Math.PI / 3));
 
-		this.addAntennaBody(car, 1.25 * size * Math.cos(3 * Math.PI / 4), 1.25 * size * Math.sin(3 * Math.PI / 4), 0); //polar coordinates
+		this.addAntennaBody(car, size * Math.cos(3 * Math.PI / 4), size * Math.sin(3 * Math.PI / 4), 0); //polar coordinates
 		this.addAntennaTip(car, 1.5 * size * Math.cos(3 * Math.PI / 4), 1.5 * size * Math.sin(3 * Math.PI / 4), 0);
 
 		this.addRoundWheel(car, size * Math.cos(Math.PI / 4), 0, size * Math.sin(Math.PI / 4)); //polar coordinates
@@ -33,11 +32,6 @@ class CarMouse extends MovableObject {
 		this.addRoundWheel(car, size * Math.cos(Math.PI * (-3 / 4)), 0, size * Math.sin(Math.PI * (-3 / 4)));
 
 		car.position.set(x, y + size / 8, z);
-
-		var geo2 = this.create_sphere(2 * size, Math.PI / 2, 29, 30);
-		var mat2 = new THREE.MeshPhongMaterial({color: 0x009933});
-		var mesh2 = new THREE.Mesh(geo2, mat2);
-		car.add(mesh2);
 	}
 
 	update(scene_elements) {
@@ -164,32 +158,19 @@ class CarMouse extends MovableObject {
 
 	addCarBody(obj, x, y, z) {
 		var size = this._size;
-		var geometry = new THREE.SphereGeometry(size, 30, 30, 0, Math.PI);
-		var material = new THREE.MeshBasicMaterial({color: 0xff4411});
-		var mesh = new THREE.Mesh(geometry, material);
-
-		mesh.rotateX(-Math.PI / 2);
-		mesh.position.set(x, y, z);
-
-		obj.add(mesh);
-	}
-
-	addCarBase(obj, x, y, z) { 
-		var size = this._size;
-		var geometry = new THREE.CircleGeometry(size, 100);
-		var material = new THREE.MeshBasicMaterial({color: 0x007700});
+		var geometry = this.create_sphere(size, Math.PI / 2, 25, 25);
+		var material = new THREE.MeshPhongMaterial({color: 0xff4411});
 		var mesh = new THREE.Mesh(geometry, material);
 
 		mesh.position.set(x, y, z);
-		mesh.rotateX(Math.PI / 2);
 
 		obj.add(mesh);
 	}
 
 	addRoundWheel(obj, x, y, z) {
 		var size = this._size;
-		var geometry = new THREE.SphereGeometry((size / 4), 15, 15);
-		var material = new THREE.MeshBasicMaterial({color: 0x0044aa});
+		var geometry = this.create_sphere(size / 4, Math.PI, 10, 10);
+		var material = new THREE.MeshPhongMaterial({color: 0x0044aa});
 		var mesh = new THREE.Mesh(geometry, material);
 		
 		mesh.position.set(x, y, z);
@@ -199,12 +180,10 @@ class CarMouse extends MovableObject {
 
 	addMouth(obj, x, y, z) {
 		var size = this._size;
-		var geometry = new THREE.SphereGeometry((size / 3), 15, 15, 0, Math.PI);
-		var material = new THREE.MeshBasicMaterial({color: 0xff0055});
+		var geometry = this.create_sphere(size / 3, Math.PI, 10, 10);
+		var material = new THREE.MeshPhongMaterial({color: 0xff0055});
 		var mesh = new THREE.Mesh(geometry, material);
 		
-		mesh.rotateZ(Math.PI / 4);
-		mesh.rotateY(Math.PI / 2);
 		mesh.position.set(x, y, z);
 
 		obj.add(mesh);
@@ -212,8 +191,8 @@ class CarMouse extends MovableObject {
 
 	addEye(obj, x, y, z) {
 		var size = this._size;
-		var geometry = new THREE.SphereGeometry((size / 6), 10, 10);
-		var material = new THREE.MeshBasicMaterial({color: 0x888888});
+		var geometry = this.create_sphere((size / 6), Math.PI, 10, 10);
+		var material = new THREE.MeshPhongMaterial({color: 0x888888});
 		var mesh = new THREE.Mesh(geometry, material);
 
 		mesh.position.set(x, y, z);
@@ -223,8 +202,8 @@ class CarMouse extends MovableObject {
 
 	addEar(obj, x, y, z) {
 		var size = this._size;
-		var geometry = new THREE.CylinderGeometry(size / 3, size / 3, size / 20, 50, 1);
-		var material = new THREE.MeshBasicMaterial({color: 0xf488de});
+		var geometry = this.create_cilinder(size / 3, size / 20, 2*Math.PI, 30);
+		var material = new THREE.MeshPhongMaterial({color: 0xf488de});
 		var mesh = new THREE.Mesh(geometry, material);
 
 		mesh.rotateZ(Math.PI / 2);
@@ -235,11 +214,11 @@ class CarMouse extends MovableObject {
 
 	addAntennaBody(obj, x, y, z) {
 		var size = this._size;
-		var geometry = new THREE.BoxGeometry(size / 2, size / 20, size / 20);
-		var material = new THREE.MeshBasicMaterial({color: 0xbbbb00});
+		var geometry = this.create_cilinder(size / 20, size / 2, 2*Math.PI, 10);
+		var material = new THREE.MeshPhongMaterial({color: 0xbbbb00});
 		var mesh = new THREE.Mesh(geometry, material);
 
-		mesh.rotateZ(3 * Math.PI / 4);
+		mesh.rotateZ(Math.PI / 4);
 		mesh.position.set(x, y, z);
 
 		obj.add(mesh);
@@ -247,8 +226,8 @@ class CarMouse extends MovableObject {
 
 	addAntennaTip(obj, x, y, z) {
 		var size = this._size;
-		var geometry = new THREE.SphereGeometry(size / 12, 8, 8);
-		var material = new THREE.MeshBasicMaterial({color: 0x55dd00});
+		var geometry = this.create_sphere(size / 12, Math.PI, 10, 10);
+		var material = new THREE.MeshPhongMaterial({color: 0x55dd00});
 		var mesh = new THREE.Mesh(geometry, material);
 		
 		mesh.rotateZ(3 * Math.PI / 4);
@@ -257,7 +236,7 @@ class CarMouse extends MovableObject {
 		obj.add(mesh);
 	}
 
-	create_sphere (r, phase_f, n_levels, n_vertices) {
+	create_sphere(r, phase_f, n_levels, n_vertices) {
 		var geometry = new THREE.Geometry();
 		var i, j;
 		var vert;
@@ -267,7 +246,7 @@ class CarMouse extends MovableObject {
 			if(i == 0 || i + (0.1 /(n_levels - 1)) >= Math.PI) {   // se for o ponto mais alto/baixo de uma esfera,
 				vert = new THREE.Vector3(0, r * Math.cos(i), 0);   // nao precisa entrar no segundo for
 				geometry.vertices.push(vert);
-			}
+			}	
 
 			else {
 				for(j = 0; j < 2 * Math.PI; j += (2 * Math.PI) / n_vertices) {
@@ -345,4 +324,63 @@ class CarMouse extends MovableObject {
 		}
 		return geometry;
 	}
+
+	create_cilinder(r, h, arc, n_vertices) {
+		var geometry = new THREE.Geometry();
+		var i;
+		var vert;
+
+		vert = new THREE.Vector3(0, 0, 0);             // cria o centro da circunferencia de baixo
+		geometry.vertices.push(vert);
+
+		for(i = 0; i < arc; i += arc / n_vertices) {   // cria as 2 circunferencias
+			vert = new THREE.Vector3(r * Math.cos(i), 0, r * Math.sin(i));   
+			geometry.vertices.push(vert);
+
+			vert = new THREE.Vector3(r * Math.cos(i), h, r * Math.sin(i));
+			geometry.vertices.push(vert);
+		}
+
+		vert = new THREE.Vector3(0, h, 0);             // cria o centro da circunferencia de cima
+		geometry.vertices.push(vert);
+
+		var size = geometry.vertices.length;
+
+		for(i = 1; i < size - 2; i += 2) {                    // cria as faces das circunferencias
+			if(i == size - 3) {
+				geometry.faces.push(new THREE.Face3(i, 1, 0));
+				geometry.computeFaceNormals();
+
+				geometry.faces.push(new THREE.Face3(i + 1, size - 1, 2));
+				geometry.computeFaceNormals();				
+			}
+
+			else {
+				geometry.faces.push(new THREE.Face3(i, i + 2, 0));
+				geometry.computeFaceNormals();
+
+				geometry.faces.push(new THREE.Face3(i + 1, size - 1, i + 3));
+				geometry.computeFaceNormals();
+			}
+		}
+
+		for(i = 1; i < size - 2; i += 2) {             // cria a superficie lateral do cilindro
+			if(i == size - 3) {
+				geometry.faces.push(new THREE.Face3(i, i + 1, 1));
+				geometry.computeFaceNormals();
+
+				geometry.faces.push(new THREE.Face3(i + 1, 2, 1));
+				geometry.computeFaceNormals();
+			}
+
+			else {
+				geometry.faces.push(new THREE.Face3(i, i + 1, i + 2));
+				geometry.computeFaceNormals();
+
+				geometry.faces.push(new THREE.Face3(i + 1, i + 3, i + 2));
+				geometry.computeFaceNormals();
+			}
+		}
+		return geometry;
+	} 
 }
