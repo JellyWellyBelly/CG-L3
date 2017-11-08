@@ -274,34 +274,26 @@ class CarMouse extends MovableObject {
 					
 					if(j == n_vertices - 1) {         // caso esteja no ultimo vertice do primeiro nivel
 						geometry.faces.push(new THREE.Face3(first, 0, first - j));
-						geometry.computeFaceNormals();
 					}
 					else {                            // vertices restantes do primeiro nivel
 						geometry.faces.push(new THREE.Face3(first, 0, first + 1));
-						geometry.computeFaceNormals();
 					}
 				}
 
-				else if(i < n_levels - 1 || (i == n_levels - 1 && phase_f == Math.PI / 2)) {  // niveis restantes 
+				else if(i < n_levels - 1 || (i == n_levels - 1 && phase_f == Math.PI / 2)) {  // niveis restantes
 					first = ((i - 1) * n_vertices) + (j + 1);
 
 					if(j == n_vertices - 1) {         // caso esteja no ultimo vertice de cada nivel
 						geometry.faces.push(new THREE.Face3(first, first - n_vertices, first - j));
-						geometry.computeFaceNormals();
 						geometry.faces.push(new THREE.Face3(first, first - n_vertices - 1, first - n_vertices));
-						geometry.computeFaceNormals();
 					}
 					else if(j == 0) {                 // caso esteja no primeiro vertice de cada nivel
 						geometry.faces.push(new THREE.Face3(first, first - n_vertices, first + 1));
-						geometry.computeFaceNormals();
 						geometry.faces.push(new THREE.Face3(first, first - 1, first - n_vertices));
-						geometry.computeFaceNormals();
 					}
 					else {                            // vertices restantes de cada nivel
 						geometry.faces.push(new THREE.Face3(first, first - n_vertices, first + 1));
-						geometry.computeFaceNormals();
 						geometry.faces.push(new THREE.Face3(first, first - n_vertices - 1, first - n_vertices));
-						geometry.computeFaceNormals();
 					}
 				}
 
@@ -315,16 +307,15 @@ class CarMouse extends MovableObject {
 
 					if(j == n_vertices - 1) {
 						geometry.faces.push(new THREE.Face3(first, first - j, last));
-						geometry.computeFaceNormals();
 					}
 
 					else {
 						geometry.faces.push(new THREE.Face3(first, first + 1, last));
-						geometry.computeFaceNormals();
 					}
 				}
 			}
 		}
+		geometry.computeFaceNormals();
 		return geometry;
 	}
 
@@ -349,41 +340,24 @@ class CarMouse extends MovableObject {
 
 		var size = geometry.vertices.length;
 
-		for(i = 1; i < size - 2; i += 2) {                    // cria as faces das circunferencias
+		for(i = 1; i < size - 2; i += 2) {
 			if(i == size - 3) {
-				geometry.faces.push(new THREE.Face3(i, 1, 0));
-				geometry.computeFaceNormals();
+				geometry.faces.push(new THREE.Face3(i, 1, 0));              // cria triangulo da face inferior da circunferencia
+				geometry.faces.push(new THREE.Face3(i + 1, size - 1, 2));   // cria triangulo da face superior da circunferencia
 
-				geometry.faces.push(new THREE.Face3(i + 1, size - 1, 2));
-				geometry.computeFaceNormals();				
-			}
-
-			else {
-				geometry.faces.push(new THREE.Face3(i, i + 2, 0));
-				geometry.computeFaceNormals();
-
-				geometry.faces.push(new THREE.Face3(i + 1, size - 1, i + 3));
-				geometry.computeFaceNormals();
-			}
-		}
-
-		for(i = 1; i < size - 2; i += 2) {             // cria a superficie lateral do cilindro
-			if(i == size - 3) {
-				geometry.faces.push(new THREE.Face3(i, i + 1, 1));
-				geometry.computeFaceNormals();
-
+				geometry.faces.push(new THREE.Face3(i, i + 1, 1));          // cria triangulos da superficie lateral do cilindro
 				geometry.faces.push(new THREE.Face3(i + 1, 2, 1));
-				geometry.computeFaceNormals();
 			}
 
 			else {
-				geometry.faces.push(new THREE.Face3(i, i + 1, i + 2));
-				geometry.computeFaceNormals();
+				geometry.faces.push(new THREE.Face3(i, i + 2, 0));              // cria triangulo da face inferior da circunferencia
+				geometry.faces.push(new THREE.Face3(i + 1, size - 1, i + 3));   // cria triangulo da face superior da circunferencia
 
+				geometry.faces.push(new THREE.Face3(i, i + 1, i + 2));          // cria triangulos da superficie lateral do cilindro
 				geometry.faces.push(new THREE.Face3(i + 1, i + 3, i + 2));
-				geometry.computeFaceNormals();
 			}
 		}
+		geometry.computeFaceNormals();
 		return geometry;
 	} 
 }

@@ -70,20 +70,19 @@ function createScene() {
 
 	var butter1 = new Butter(30, -450, 0, 450);
 	var butter2 = new Butter(30, -150, 0, 350);
-	var butter3 = new Butter(30, 50, 0, 350);
+	var butter3 = new Butter(30, -350, 0, -300);
 	var butter4 = new Butter(30, -200, 0, -150);
-	var butter5 = new Butter(30, 0, 0, 0);
+	var butter5 = new Butter(30, 250, 0, 150);
 
 	var candle1 = new Candle(12, 250, 0, 50);
-	var candle2 = new Candle(20, 250, 0, 350);
-	var candle3 = new Candle(15, -150, 0, 250);
-	var candle4 = new Candle(10, -100, 0, -200);
-	var candle5 = new Candle(8, -300, 0, 0);
+	var candle2 = new Candle(20, 50, 0, 350);
+	var candle3 = new Candle(15, -350, 0, -200);
+	var candle4 = new Candle(10, -100, 0, 50);
+	var candle5 = new Candle(8, -350, 0, 50);
 	var candle6 = new Candle(11, -350, 0, 350);
 
 	track.create_track();
 
-	
 	scene_elements.push(carMouse);
 	scene_elements.push(track.getStart());
 	scene_elements.push(table);
