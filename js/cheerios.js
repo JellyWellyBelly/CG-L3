@@ -6,7 +6,10 @@ class Cheerio extends MovableObject {
 
     var cheerio = new THREE.Object3D();
 
-    super(8000, -8000, 0, 80, 0, 0, 2 * height, cheerio, 2*height + height);
+    var phongMaterial = new THREE.MeshPhongMaterial({shininess : 0});
+    var lambertMaterial = new THREE.MeshLambertMaterial();
+
+    super(8000, -8000, 0, 80, 0, 0, 2 * height, cheerio, 2*height + height, phongMaterial, lambertMaterial);
 
     this._height = height;
     

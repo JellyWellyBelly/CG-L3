@@ -6,14 +6,17 @@ class Table extends MovableObject{
         var height = size / 10;
         var table = new THREE.Object3D();
         
-        super(0, 0, 0, 0, 0, 0, size, table, 0);
+        var phongMaterial = new THREE.MeshPhongMaterial({shininess : 0});
+        var lambertMaterial = new THREE.MeshLambertMaterial();
+
+        super(0, 0, 0, 0, 0, 0, size, table, 0, phongMaterial, lambertMaterial);
 
         this.addTableTop(table, size);
         this.addLeg(table, size / 4, size / 4);
         this.addLeg(table, size / 4, -size / 4);
         this.addLeg(table, -size / 4, size / 4);
         this.addLeg(table, -size / 4, -size / 4);
-        this.addFloor(table, size);
+        //this.addFloor(table, size);
     }
 
     addTableTop(table, size) {
@@ -49,7 +52,7 @@ class Table extends MovableObject{
 
         
         floor.rotation.x = -Math.PI / 2;
-        floor.position.set(0, -(3 * height), 0);
+        floor.position.set(0, -(2 * height), 0);
 
         table.add(floor);
     }

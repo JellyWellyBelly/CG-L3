@@ -13,6 +13,7 @@ var carSize = 5;
 var sun;
 var skycolor = 0x23aaff; // azul clarinho
 var globalMaterialType = "PHONG";
+var isBasic = false;
 
 //var controls;
 
@@ -107,40 +108,32 @@ function createScene() {
 
 	var cheerioList = track.getAllCheerios();
 	for(var i = 0; i < cheerioList.length; i++) {
-		scene.add(cheerioList[i].getMesh());
+		scene.add(cheerioList[i].getObj());
 		scene_elements.push(cheerioList[i]);
 	}
 
 
-	scene.add(carMouse.getMesh());
-	scene.add(table.getMesh());
+	scene.add(carMouse.getObj());
+	scene.add(table.getObj());
 
-	scene.add(orange1.getMesh());
-	scene.add(orange2.getMesh());
-	scene.add(orange3.getMesh());
+	scene.add(orange1.getObj());
+	scene.add(orange2.getObj());
+	scene.add(orange3.getObj());
 
-	scene.add(butter1.getMesh());
-	scene.add(butter2.getMesh());
-	scene.add(butter3.getMesh());
-	scene.add(butter4.getMesh());
-	scene.add(butter5.getMesh());
+	scene.add(butter1.getObj());
+	scene.add(butter2.getObj());
+	scene.add(butter3.getObj());
+	scene.add(butter4.getObj());
+	scene.add(butter5.getObj());
 
-	scene.add(candle1.getMesh());
-	scene.add(candle2.getMesh());
-	scene.add(candle3.getMesh());
-	scene.add(candle4.getMesh());
-	scene.add(candle5.getMesh());
-	scene.add(candle6.getMesh());
+	scene.add(candle1.getObj());
+	scene.add(candle2.getObj());
+	scene.add(candle3.getObj());
+	scene.add(candle4.getObj());
+	scene.add(candle5.getObj());
+	scene.add(candle6.getObj());
 
-	scene.add(track.getStart().getMesh());
-
-
-
-	var floorList = track.getFloor();
-
-	for(var i = 0; i < floorList.length; i++) {
-		scene.add(floorList[i]);
-	}
+	scene.add(track.getStart().getObj());
 
 	scene.add(sun);
 	//scene.add(new THREE.AxisHelper(50));
@@ -176,6 +169,7 @@ function createCameraCar() {
 }
 
 function onKeyDown(e) {
+
 	switch (e.keyCode) {
 		case 38: // *up arrow key*
 			carMouse.setAcc(300);
@@ -191,6 +185,86 @@ function onKeyDown(e) {
 
 		case 37: // *left arrow key*
 			carMouse.setTurningAngle(Math.PI/60);
+			break;
+
+		case 65: //A
+		case 97: //a
+			frame = !frame;
+			scene.traverse(function (node) {
+				if (node instanceof THREE.Mesh) {
+					node.material.wireframe = frame;
+				}
+			});
+			break;
+		case 49: // 1
+			cameraInUse = cameraOrt;
+			break;
+
+		case 50: // 2
+			cameraInUse = cameraPresp;
+			break;
+
+		case 51: // 3
+			cameraInUse = cameraCar
+			break;
+
+		//toggles sun
+		case 78: //N
+		case 110: //n
+			if (sun.intensity == 0) {
+				sun.intensity = 1;
+				skycolor = 0x23aaff;
+			}
+			else {
+				sun.intensity = 0;
+				skycolor = 0x000000;
+			}
+			break;
+
+		case 76: //L
+		case 108: //l
+			
+			if (!(isBasic)) {
+				for(var i = 0; i < scene_elements.length; i++) {
+					scene_elements[i].swapTo("BASIC", frame);
+					isBasic = true;
+				}
+			}
+			else {
+				for(var i = 0; i < scene_elements.length; i++) {
+					scene_elements[i].swapTo(globalMaterialType, frame);
+					isBasic = false;
+				}
+			}
+			
+			break;
+
+		case 71: //G
+		case 103: //g
+
+			if (!(isBasic)) {
+				for(var i = 0; i < scene_elements.length; i++) {
+					if (globalMaterialType.localeCompare("PHONG") == 0) {
+						scene_elements[i].swapTo("LAMBERT", frame);
+						globalMaterialType = "LAMBERT";
+					}
+					else if (globalMaterialType.localeCompare("LAMBERT") == 0) {
+						scene_elements[i].swapTo("PHONG", frame);
+						globalMaterialType = "PHONG";
+					}
+				}
+			}
+			break;
+		
+		// toggles candles
+		case 67: //C
+		case 99: //c
+			for(var i = 0; i < scene_elements.length; i++) {
+				elem = scene_elements[i];
+				if(elem instanceof Candle) {
+					elem.flipLight();
+				}
+			}
 			break;
 	}
 }
@@ -210,141 +284,6 @@ function onKeyUp(e) {
 }
 
 
-function onKeyPress(e) {
-	switch (e.keyCode) {
-	case 65: //A
-	case 97: //a
-		frame = !frame;
-		scene.traverse(function (node) {
-			if (node instanceof THREE.Mesh) {
-				node.material.wireframe = frame;
-			}
-		});
-		break;
-
-	case 49: // 1
-		cameraInUse = cameraOrt;
-		break;
-
-	case 50: // 2
-		cameraInUse = cameraPresp;
-		break;
-
-	case 51: // 3
-		cameraInUse = cameraCar
-		break;
-
-	//toggles sun
-	case 78: //N
-	case 110: //n
-		if (sun.intensity == 0) {
-			sun.intensity = 1;
-			skycolor = 0x23aaff;
-		}
-		else {
-			sun.intensity = 0;
-			skycolor = 0x000000;
-		}
-		break;
-
-	case 76: //L
-	case 108: //l
-		for(var i = 0; i < scene_elements.length; i++) {
-			var newMaterial;
-			var meshList;
-
-			elem = scene_elements[i];
-			obj = elem.getMesh(); /* Gets every object3D added to the scene */
-
-			if(elem instanceof Orange) { /* Oranges have a special treatment in terms of mesh composition. */
-
-				meshList = elem.getAllMeshs();
-
-				for(var x = 0; x < meshList.length; x++) {
-					if(meshList[x].material.isMeshBasicMaterial == true) {
-						if(globalMaterialType.localeCompare("PHONG") == 0) {
-							newMaterial = new THREE.MeshPhongMaterial({color: meshList[x].material.color, wireframe: frame});
-							meshList[x].material = newMaterial;
-						}
-						else {
-							newMaterial = new THREE.MeshLambertMaterial({color: meshList[x].material.color, wireframe: frame});
-							meshList[x].material = newMaterial;
-						}
-					}
-
-					else {
-						newMaterial = new THREE.MeshBasicMaterial({color: meshList[x].material.color, wireframe: frame});
-						meshList[x].material = newMaterial;
-					}
-				}
-			}
-			else {
-				for (var j = obj.children.length - 1; j >= 0; j--) {	/* For each object it swaps the mesh to a different one */
-					
-					if(obj.children[j].isMesh == true) {
-						mesh = obj.children[j];
-
-						if(mesh.material.isMeshBasicMaterial == true) {
-							if(globalMaterialType.localeCompare("PHONG") == 0){
-								newMaterial = new THREE.MeshPhongMaterial({color: mesh.material.color, wireframe: frame});
-								mesh.material = newMaterial;
-							}
-							else {
-								newMaterial = new THREE.MeshLambertMaterial({color: mesh.material.color, wireframe: frame});
-								mesh.material = newMaterial;
-							}
-						}
-						else if ((mesh.material.isMeshLambertMaterial == true) || (mesh.material.isMeshPhongMaterial == true)) {
-							newMaterial = new THREE.MeshBasicMaterial({color: mesh.material.color, wireframe: frame});
-							mesh.material = newMaterial;
-						}
-					}
-				}
-			}
-		}
-		break;
-
-	case 71: //G
-	case 103: //g
-		for(var i = 0; i < scene_elements.length; i++) {
-			var newMaterial;
-			elem = scene_elements[i];
-			obj = elem.getMesh(); /* Gets every object3D added to the scene */
-
-			for (var j = obj.children.length - 1; j >= 0; j--) {	/* For each object it swaps the mesh to a different one */
-				
-				if(obj.children[j].isMesh == true) {
-					mesh = obj.children[j];
-
-					if(mesh.material.isMeshLambertMaterial == true) {
-						newMaterial = new THREE.MeshPhongMaterial({color: mesh.material.color, wireframe: frame});
-						mesh.material = newMaterial;
-						globalMaterialType = "PHONG";
-					}
-					else if(mesh.material.isMeshPhongMaterial == true) {
-						newMaterial = new THREE.MeshLambertMaterial({color: mesh.material.color, wireframe: frame});
-						mesh.material = newMaterial;
-						globalMaterialType ="LAMBERT";
-					}
-				}
-			}
-		}
-		break;
-	
-	// toggles candles
-	case 67: //C
-	case 99: //c
-		for(var i = 0; i < scene_elements.length; i++) {
-			elem = scene_elements[i];
-			if(elem instanceof Candle) {
-				elem.flipLight();
-			}
-		}
-		break;
-	}
-
-}
-
 function init() {
 	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -358,15 +297,13 @@ function init() {
 	createCameraPresp();
 
 	cameraInUse = cameraOrt;
-	var carro = carMouse.getMesh();
+	var carro = carMouse.getObj();
 	carro.add(cameraCar);
 
 	window.addEventListener("resize", onResize);
 	window.addEventListener("keydown", onKeyDown);
 	window.addEventListener("keyup", onKeyUp);
-	window.addEventListener("keypress", onKeyPress);
 	
-
 //	controls = new THREE.OrbitControls(cameraInUse);
 }
 

@@ -6,7 +6,10 @@ class CarMouse extends MovableObject {
 
 		var car = new THREE.Object3D();
 
-		super(8000, -12000, 0, 0, 0, 0, size, car, size);
+	    var phongMaterial = new THREE.MeshPhongMaterial({shininess : 50});
+	    var lambertMaterial = new THREE.MeshLambertMaterial();
+
+		super(8000, -12000, 0, 0, 0, 0, size, car, size, phongMaterial, lambertMaterial);
 
 		this._spawnPos = [x, y, z];
 

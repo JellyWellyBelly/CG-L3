@@ -5,7 +5,10 @@ class Orange extends MovableObject {
   constructor(size, x, y, z) {
     var orange = new THREE.Object3D();
 
-    super(10000,0,0,0,0,0, size, orange, size);
+    var phongMaterial = new THREE.MeshPhongMaterial({shininess : 10});
+    var lambertMaterial = new THREE.MeshLambertMaterial();
+
+    super(10000,0,0,0,0,0, size, orange, size, phongMaterial, lambertMaterial);
 
     var geometry = new THREE.SphereGeometry(size*0.5, 10, 10, 0);
     var material = new THREE.MeshPhongMaterial({color: 0xed862d, wireframe: false, visible: false});
@@ -125,6 +128,37 @@ class Orange extends MovableObject {
 
     getAllMeshs() {
         return this._meshList;
+    }
+
+    swapTo(materialType, isWireframe) {
+        var material;
+        var color;
+        var mesh;
+        var meshList = this.getAllMeshs();
+
+        switch (materialType) {
+            case "BASIC":
+                material = this._basicMat.clone();
+                break;
+
+            case "PHONG":
+                material = this._phongMat.clone();
+                break;
+
+            case "LAMBERT":
+                material = this._lambertMat.clone();
+                break;
+        }
+
+        material.wireframe = isWireframe;
+
+        for(var i = 0; i < meshList.length; i++) {
+            mesh = meshList[i];
+            color = mesh.material.color.clone();
+
+            material.color = color;
+            mesh.material = material.clone();
+        }
     }
 }
 

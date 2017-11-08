@@ -6,7 +6,10 @@ class Butter extends MovableObject {
 
     var butter = new THREE.Object3D();
 
-    super(0, 0, 0, 0, 0, 0, size, butter, size * 1.25);
+    var phongMaterial = new THREE.MeshPhongMaterial({shininess : 0});
+    var lambertMaterial = new THREE.MeshLambertMaterial();
+
+    super(0, 0, 0, 0, 0, 0, size, butter, size * 1.25, phongMaterial, lambertMaterial);
 
   	this.addBase(butter, size, x, y, z);
     this.addButter(butter, size, x, y, z);

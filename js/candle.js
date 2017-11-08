@@ -6,7 +6,10 @@ class Candle extends MovableObject {
 
 		var candle = new THREE.Object3D();
 
-		super(0, 0, 0, 0, 0, 0, size, candle, size);
+    	var phongMaterial = new THREE.MeshPhongMaterial({shininess : 0});
+	    var lambertMaterial = new THREE.MeshLambertMaterial();
+
+		super(0, 0, 0, 0, 0, 0, size, candle, size, phongMaterial, lambertMaterial);
 
 		this._pointLightSource = null; /* Creates light source in the addFIRE function*/
 		this._switch = "ON";

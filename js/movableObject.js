@@ -2,7 +2,7 @@
 
 class MovableObject {
 
-	constructor(maxSpeed, minSpeed, acc, friction, currentSpeed, turningAngle, size, mesh, bb_rad) {
+	constructor(maxSpeed, minSpeed, acc, friction, currentSpeed, turningAngle, size, mesh, bb_rad, phongMat, lambertMat) {
 
 		this._maxSpeed = maxSpeed;
 		this._minSpeed = minSpeed;
@@ -13,12 +13,15 @@ class MovableObject {
 
 		this._size = size;
 		this._clock = new THREE.Clock();
-		this._mesh = mesh;
-
 		this._BB_Radius = bb_rad;
+
+		this._mesh = mesh;
+		this._basicMat = new THREE.MeshBasicMaterial();
+		this._phongMat = phongMat;
+		this._lambertMat = lambertMat;
 	}
 
-	getMesh() {
+	getObj() {
 		return this._mesh;
 	}
 
@@ -27,7 +30,7 @@ class MovableObject {
 
 	checkCollision(obj, scene_elements) {
 		
-		var obj_center = obj.getMesh().position;
+		var obj_center = obj.getObj().position;
 
 		var elem_center;
 		var elem_BB_radius;
@@ -37,7 +40,7 @@ class MovableObject {
 		/* Goes through every elem in the scene and checks collisions. */
 		scene_elements.forEach(function(elem){
 
-			elem_center = elem.getMesh().position;
+			elem_center = elem.getObj().position;
 			elem_BB_radius = elem._BB_Radius;
 
 			/*  
@@ -46,7 +49,7 @@ class MovableObject {
 				Sum of the bounding boxes radius must be smaller than the distance between the centeres of the objects.
 				It is used the distance squared for improved perfomance. 
 			*/
-			if(obj.getMesh().uuid != elem.getMesh().uuid) {
+			if(obj.getObj().uuid != elem.getObj().uuid) {
 				if(obj_center.distanceToSquared(elem_center) < (elem._BB_Radius + obj._BB_Radius)**2) {
 						result = elem;
 				}
@@ -54,5 +57,39 @@ class MovableObject {
 		});
 
 		return result;
+	}
+
+
+	swapTo(materialType, isWireframe) {
+		var mesh;
+		var color;
+		var material;
+		var obj = this.getObj();
+
+		switch (materialType) {
+			case "BASIC":
+				material = this._basicMat.clone();
+				break;
+
+			case "PHONG":
+				material = this._phongMat.clone();
+				break;
+
+			case "LAMBERT":
+				material = this._lambertMat.clone();
+				break;
+		}
+
+		material.wireframe = isWireframe;
+
+		for (var j = obj.children.length - 1; j >= 0; j--) {
+			if(obj.children[j].isMesh == true) {
+				mesh = obj.children[j];
+				color = mesh.material.color.clone();
+
+				material.color = color;
+				mesh.material = material.clone();
+			}
+		}
 	}
 }

@@ -6,9 +6,12 @@ class Start extends MovableObject {
 
     var start = new THREE.Object3D();
 
-    super(0, 0, 0, 0, 0, 0, radius, start, -5);
+    var phongMaterial = new THREE.MeshPhongMaterial({shininess : 0});
+    var lambertMaterial = new THREE.MeshLambertMaterial();
 
-    var geometry = new THREE.TorusGeometry(radius, 1, 8, 6, Math.PI);
+    super(0, 0, 0, 0, 0, 0, radius, start, -5, phongMaterial, lambertMaterial);
+
+    var geometry = new THREE.TorusGeometry(radius, 1, 10, 40, Math.PI);
     var material = new THREE.MeshPhongMaterial( { color: 0xffff00 } );
     var torus1 = new THREE.Mesh(geometry, material);
 
