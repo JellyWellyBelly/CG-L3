@@ -43,6 +43,7 @@ class Orange extends MovableObject {
     this._meshList.push(mesh2);
 
     this._timeoutID;
+    this._runninglv = 1;
   }
 
     update() {
@@ -50,20 +51,18 @@ class Orange extends MovableObject {
         var transMesh = this._mesh;
         var rotMesh = this._rotMesh;
         var size = this._size;
-        var dt = this._clock.getElapsedTime();
         var visible = this._visible;
+        var dt = this._clock.getElapsedTime();
+        var lv = this._runninglv;
 
-        if(dt <= 15) {                   // orange LV1
-            v0 = 20 / size;
+        if(dt >= 10) {
+            console.log(dt);
+            this._clock.stop();
+            lv++;
+            this._clock.start();
         }
 
-        else if(dt > 15 && dt <= 30) {   // orange LV2
-            v0 = 40 / size;
-        }
-
-        else {                           // orange LV3
-            v0 = 60 / size;
-        }
+        v0 = lv * (20 / size);
 
         if((Math.abs(transMesh.position.x) > 500 || Math.abs(transMesh.position.z) > 500) && visible) {
             visible = false;
@@ -82,8 +81,13 @@ class Orange extends MovableObject {
         this._currentSpeed = v0;
         this._mesh = transMesh;
         this._rotMesh = rotMesh;
+        this._runninglv = lv;
     }
 
+    resetDelta() {
+        this._clock.stop();
+        this._clock.start();
+    }
 
     calc_spawn() {
 
