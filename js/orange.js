@@ -85,7 +85,6 @@ class Orange extends MovableObject {
     }
 
     resetDelta() {
-        this._clock.stop();
         this._clock.start();
     }
 
