@@ -12,6 +12,8 @@ class CarMouse extends MovableObject {
 		super(8000, -12000, 0, 0, 0, 0, size, car, size, phongMaterial, lambertMaterial);
 
 		this._spawnPos = [x, y, z];
+		this._headLights = [];
+		this._switch = "ON";
 
 		this.addCarBody(car, 0, 0, 0);
 		this.addMouth(car, size*Math.cos(Math.PI / 7) * 0.80, size * Math.sin(Math.PI / 7) * 0.80, 0); //polar coordinates
@@ -33,6 +35,8 @@ class CarMouse extends MovableObject {
 		this.addRoundWheel(car, size * Math.cos(-Math.PI / 4), 0, size * Math.sin(-Math.PI / 4));
 		this.addRoundWheel(car, size * Math.cos(Math.PI * (3 / 4)), 0, size * Math.sin(Math.PI * (3 / 4)));
 		this.addRoundWheel(car, size * Math.cos(Math.PI * (-3 / 4)), 0, size * Math.sin(Math.PI * (-3 / 4)));
+
+		this.flipLight();
 
 		car.position.set(x, y + size / 8, z);
 	}
@@ -68,6 +72,10 @@ class CarMouse extends MovableObject {
 		else {
 			this.movementWithCollision(collision, dt);
 		}
+
+		if ((Math.abs(posX) > 500) || (Math.abs(posZ) > 500)) {
+			this.killMe();
+		}
 	}
 
 	movementWithCollision(collision, dt) {
@@ -79,12 +87,7 @@ class CarMouse extends MovableObject {
 
 		/* Collides with Orange */
 		else if (collision instanceof Orange) {
-			var x = this._spawnPos[0];
-			var y = this._spawnPos[1] + (this._size / 8);
-			var z = this._spawnPos[2];
-
-			this._mesh.position.set(x, y, z);
-			this._mesh.rotation.set(0,0,0);
+			this.killMe();
 		}
 		
 		/* Collides with Cheerio */
@@ -150,6 +153,38 @@ class CarMouse extends MovableObject {
 
 	}
 
+	flipLight() {
+		var headLights = this._headLights;
+		var size = this._size;
+
+		for(var i = 0; i < headLights.length; i++) {
+			if(this._switch.localeCompare("ON") == 0){
+				headLights[i].intensity = 0;
+			}
+			else {
+				headLights[i].intensity = 3;
+			}
+		}
+		
+		if(this._switch.localeCompare("ON") == 0){
+			this._switch = "OFF";
+		}
+		else {
+			this._switch = "ON";
+		}
+	}
+
+	killMe() {
+		var x = this._spawnPos[0];
+		var y = this._spawnPos[1] + (this._size / 8);
+		var z = this._spawnPos[2];
+
+		this._mesh.position.set(x, y, z);
+		this._mesh.rotation.set(0,0,0);
+
+		loseLife();
+	}
+
 	setAcc(acc) {
 		this._acceleration = acc;
 	}
@@ -197,10 +232,19 @@ class CarMouse extends MovableObject {
 		var geometry = this.create_sphere((size / 6), Math.PI, 10, 10);
 		var material = new THREE.MeshPhongMaterial({color: 0x888888});
 		var mesh = new THREE.Mesh(geometry, material);
+		var headLight = new THREE.SpotLight(0xffffff, 3, 50 * size, Math.PI/2, 1, 2);		
+
+		headLight.position.set(x * 1.4, y, z);
+		headLight.castShadow = true;
+		headLight.target.position.set(x * 1.5, y, z)
 
 		mesh.position.set(x, y, z);
 
+		obj.add(headLight.target);
+		obj.add(headLight);
 		obj.add(mesh);
+
+		this._headLights.push(headLight);
 	}
 
 	addEar(obj, x, y, z) {

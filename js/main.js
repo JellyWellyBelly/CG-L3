@@ -2,55 +2,99 @@
 
 //Made by script wizards
 
-var cameraPresp, cameraOrt, cameraCar, scene, renderer, elem, obj, mesh;
+var cameraPresp, cameraOrt, cameraCar, cameraPause_Over, scene, renderer, elem;
 var window_ratio;
-var scene_size = 550;
-var scene_elements = [];
+var scene_size;
+var scene_elements;
 var carMouse;   //so the eventListener know wich car to update the flags
-var frame = false;
+var frame;
 var cameraInUse;
-var carSize = 5;
+var carSize;
 var sun;
-var skycolor = 0x23aaff; // azul clarinho
-var globalMaterialType = "PHONG";
-var isBasic = false;
+var skycolor;
+var globalMaterialType;
+
+var isBasic;
+var isPaused;
+var isGameOver;
+
+var pauseGeometry;
+var pauseTexture;
+var pauseMaterial;
+var pauseMesh;
+
+var gameOverGeometry;
+var gameOverTexture;
+var gameOverMaterial;
+var gameOverMesh;
+
+var cameraScore;
+var totalLifes;
+var currentLifes;
 
 //var controls;
 
 
 function onResize() {
+	var cameraOrtRatio, cameraScoreRatio;
+
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
 
 	if (window.innerHeight > 0 && window.innerWidth > 0) { // dividing by zero error preventer
 		window_ratio = renderer.getSize().width / renderer.getSize().height; //updating window ratio
 		if (window_ratio > 1) {
-			cameraOrt.left = - scene_size * window_ratio; //left
-			cameraOrt.right = scene_size * window_ratio; //right
+			window_ratio = renderer.getSize().width / renderer.getSize().height;
+
+			cameraOrt.left = - scene_size * (1.15) * window_ratio; //left
+			cameraOrt.right = scene_size * (1.15) * window_ratio; //right
 			cameraOrt.top = scene_size; //top
 			cameraOrt.bottom = - scene_size; //bottom
+
+			cameraPause_Over.left = - scene_size * (1.15) * window_ratio; //left
+			cameraPause_Over.right = scene_size * (1.15) * window_ratio; //right
+			cameraPause_Over.top = scene_size; //top
+			cameraPause_Over.bottom = - scene_size; //bottom
+
+			cameraScore.left = 0; //left
+			cameraScore.right = carSize * (totalLifes + 1) * 2 * window_ratio; //right
+			cameraScore.top = carSize; //top
+			cameraScore.bottom = - carSize / 2; //bottom
 		}
 		else {
 
 			// ratio must be greater than 1 so that a rectangular window maintains the scene's ratio
 			// this window ratio is the inverse of the window ratio above
 			// new_ratio = 1 / old_ratio
-			window_ratio = renderer.getSize().height / renderer.getSize().width; 
+			window_ratio = renderer.getSize().height / renderer.getSize().width;
+
 			cameraOrt.left = - scene_size; //left
 			cameraOrt.right = scene_size; //right
 			cameraOrt.top = scene_size * window_ratio; //top
 			cameraOrt.bottom = - scene_size * window_ratio; //bottom
+
+			cameraPause_Over.left = - scene_size * (1.15) * window_ratio; //left
+			cameraPause_Over.right = scene_size * (1.15) * window_ratio; //right
+			cameraPause_Over.top = scene_size; //top
+			cameraPause_Over.bottom = - scene_size; //bottom
+
+			cameraScore.left = 0; //left
+			cameraScore.right = carSize * (totalLifes + 1) * 2; //right
+			cameraScore.top = carSize * window_ratio; //top
+			cameraScore.bottom = - (carSize / 2) * window_ratio; //bottom
 		}
 		cameraOrt.updateProjectionMatrix(); //update camera
+		cameraPause_Over.updateProjectionMatrix(); //update camera
+		cameraScore.updateProjectionMatrix(); //update camera
 	}
 
 	if (window.innerHeight > 0 && window.innerWidth > 0) {
-		cameraPresp.aspect = renderer.getSize().width / renderer.getSize().height;
+		cameraPresp.aspect = renderer.getSize().width / (renderer.getSize().height * 0.85);
 		cameraPresp.updateProjectionMatrix();
 	}
 
 	if (window.innerHeight > 0 && window.innerWidth > 0) {
-		cameraCar.aspect = renderer.getSize().width / renderer.getSize().height;
+		cameraCar.aspect = renderer.getSize().width / (renderer.getSize().height * 0.85);
 		cameraCar.updateProjectionMatrix();
 	}
 }
@@ -59,8 +103,8 @@ function onResize() {
 
 function createScene() {
 	scene = new THREE.Scene();
-	carMouse = new CarMouse(carSize, 0, 0, -75);
-	sun = new DirectionalLight().create_light(50, 100, 0); 
+	carMouse = new CarMouse(carSize, 0, 1, -75);
+	sun = new DirectionalLight().create_light(50, 100, 0);
 
 	var table = new Table(1000);
 	var track = new Track();
@@ -93,6 +137,7 @@ function createScene() {
 	scene_elements.push(butter4);
 	scene_elements.push(butter5);
 	
+
 	scene_elements.push(orange1);
 	scene_elements.push(orange2);
 	scene_elements.push(orange3);
@@ -104,13 +149,11 @@ function createScene() {
 	scene_elements.push(candle5);
 	scene_elements.push(candle6);	
 
-
 	var cheerioList = track.getAllCheerios();
 	for(var i = 0; i < cheerioList.length; i++) {
 		scene.add(cheerioList[i].getObj());
 		scene_elements.push(cheerioList[i]);
 	}
-
 
 	scene.add(carMouse.getObj());
 	scene.add(table.getObj());
@@ -133,22 +176,71 @@ function createScene() {
 	scene.add(candle6.getObj());
 
 	scene.add(track.getStart().getObj());
+	
+	scene.add(pauseMesh);
+	scene.add(gameOverMesh);
 
 	scene.add(sun);
-	//scene.add(new THREE.AxisHelper(50));
 }
 
+//Cria os carros para as vidas
+function createTopMenu() {
+	var life, lifeObj, distance;
+
+	for (var i = 0; i < totalLifes; i++) {
+		distance = (cameraScore.right / (totalLifes + 1)) * (i + 1);
+		life = new CarMouse(0.5 * carSize, distance,  -400, 0); /* CAR SIZE AND IT'S POSITION */
+		
+		lifeObj = life.getObj();
+		lifeObj.rotateX(-Math.PI/2);
+		
+		currentLifes.push(lifeObj);
+		scene.add(lifeObj);
+	}
+
+	var geometry = new THREE.PlaneGeometry(cameraScore.right, (cameraScore.top - cameraScore.bottom) * 1.5, 32 );
+
+	var flagTexture  = new THREE.TextureLoader().load('flag.gif');
+	flagTexture.wrapS = THREE.RepeatWrapping;
+	flagTexture.wrapT = THREE.RepeatWrapping;
+
+	var material = new THREE.MeshBasicMaterial( {color: 0xffffff, side: THREE.DoubleSide, map: flagTexture});
+	var plane = new THREE.Mesh(geometry, material);
+
+	plane.position.set(cameraScore.right / 2, -400, 0);
+	plane.rotation.set(Math.PI / 2, 0 ,0);
+	scene.add(plane);
+}
+
+function createCameraPause_Over() {
+	cameraPause_Over = new THREE.OrthographicCamera(-scene_size, //left
+											   scene_size, //right
+											   scene_size, //top
+											  -scene_size, //bottom
+											   0.01, 2000);
+	cameraPause_Over.position.set(0, 500, 0);
+	cameraPause_Over.lookAt(scene.position);
+}
 
 function createCameraOrt() {
 	cameraOrt = new THREE.OrthographicCamera(-scene_size, //left
-										   scene_size, //right
-										   scene_size, //top
-										  -scene_size, //bottom
-										   0.01, 2000);
+											   scene_size, //right
+											   scene_size, //top
+											  -scene_size, //bottom
+											   0.01, 2000);
 	cameraOrt.position.set(0, 500, 0);
 	cameraOrt.lookAt(scene.position);
 }
 
+function createCameraTopMenu() {
+	cameraScore = new THREE.OrthographicCamera(0, //left
+									   (carSize * 1.5) * (totalLifes + 2), //right
+									   carSize, //top
+									  -carSize, //bottom
+									   0.01, 2000);
+	cameraScore.position.set(0, -scene_size/2, 0);
+	cameraScore.lookAt(new THREE.Vector3(0, -5 * scene_size, 0));
+}
 
 function createCameraPresp() {
 	cameraPresp = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 3000);
@@ -166,6 +258,7 @@ function createCameraCar() {
 	cameraCar.position.set(- carSize * 10, carSize * 4, 0); 
 	cameraCar.rotation.set(0, -Math.PI/2, 0);
 }
+
 
 function onKeyDown(e) {
 
@@ -220,24 +313,28 @@ function onKeyDown(e) {
 			}
 			break;
 
+		// toggles between basic material and a non basic material
 		case 76: //L
 		case 108: //l
 			
 			if (!(isBasic)) {
 				for(var i = 0; i < scene_elements.length; i++) {
 					scene_elements[i].swapTo("BASIC", frame);
-					isBasic = true;
 				}
+				
+				isBasic = true;
 			}
 			else {
 				for(var i = 0; i < scene_elements.length; i++) {
 					scene_elements[i].swapTo(globalMaterialType, frame);
-					isBasic = false;
 				}
+					
+				isBasic = false;
 			}
 			
 			break;
 
+		// toggles material between phong and lambert if the material type is not basic 
 		case 71: //G
 		case 103: //g
 
@@ -265,6 +362,40 @@ function onKeyDown(e) {
 				}
 			}
 			break;
+
+		// toggles car's headlights
+		case 72: //H
+		case 104: //h
+			carMouse.flipLight();
+			break;
+
+		// (un)pauses the game
+		case 83: //S
+		case 115: //s
+			if(isPaused) {
+				isPaused = !isPaused;
+				cameraInUse = cameraOrt;	
+			}
+
+			else {
+				isPaused = !isPaused;
+				cameraInUse = cameraPause_Over;
+			}
+
+			break;
+
+		// restarts the game if is game over
+		case 82: //R
+		case 114: //r
+			if(isGameOver == true) {
+				isGameOver = false;
+				for (var i = scene_elements.length - 1; i >= 0; i--) {
+					scene_elements.pop();
+				}
+				document.body.removeChild(renderer.domElement);
+				init();
+			}
+			break;
 	}
 }
 
@@ -284,37 +415,119 @@ function onKeyUp(e) {
 
 
 function init() {
+	/* inicializacao das variaveis globais */
+	carSize = 5;
+	frame = false;
+	isBasic = false;
+	isPaused = false;
+	isGameOver = false;
+	scene_size = 550;
+	skycolor = 0x23aaff; // azul clarinho
+	totalLifes = 5;
+
+	currentLifes = [];
+	scene_elements = [];
+	globalMaterialType = "PHONG";
+
+	pauseGeometry = new THREE.PlaneGeometry(scene_size, scene_size/2);
+	pauseTexture  = new THREE.TextureLoader().load('paused.png');
+	pauseTexture.wrapS = THREE.RepeatWrapping;
+	pauseTexture.wrapT = THREE.RepeatWrapping;
+	pauseMaterial = new THREE.MeshBasicMaterial({color: 0xffffff, map: pauseTexture});
+	pauseMesh     = new THREE.Mesh(pauseGeometry, pauseMaterial);
+	pauseMesh.rotateX(-Math.PI/2);
+	pauseMesh.position.set(0, scene_size/2, 0);
+
+	gameOverGeometry = new THREE.PlaneGeometry(scene_size, scene_size);
+	gameOverTexture  = new THREE.TextureLoader().load('gameover.jpg');
+	gameOverTexture.wrapS = THREE.RepeatWrapping;
+	gameOverTexture.wrapT = THREE.RepeatWrapping;
+	gameOverMaterial = new THREE.MeshBasicMaterial({color: 0xffffff, map: gameOverTexture});
+	gameOverMesh     = new THREE.Mesh(gameOverGeometry, gameOverMaterial);
+	gameOverMesh.rotateX(-Math.PI/2);
+	gameOverMesh.position.set(0, scene_size/2, 0);
+
+	/* renderer */
 	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setSize(window.innerWidth, window.innerHeight);
-	renderer.setClearColor (skycolor, 1);
 
 	document.body.appendChild(renderer.domElement);
 
+
+	/* cena, menus e camaras */
 	createScene();
 	createCameraOrt();
 	createCameraCar();
+	createCameraTopMenu();
+	createCameraPause_Over();
 	createCameraPresp();
+	createTopMenu();
 
 	cameraInUse = cameraOrt;
 	var carro = carMouse.getObj();
 	carro.add(cameraCar);
 
+	/* event listeners */
 	window.addEventListener("resize", onResize);
 	window.addEventListener("keydown", onKeyDown);
 	window.addEventListener("keyup", onKeyUp);
+
 	
 //	controls = new THREE.OrbitControls(cameraInUse);
 }
 
 function render() {
+	var left, top, width, height;
+
+	/* main game viewport */
+	left   = Math.floor( window.innerWidth  * 0    );
+	top    = Math.floor( window.innerHeight * 0.15 );
+	width  = Math.floor( window.innerWidth  * 1    );
+	height = Math.floor( window.innerHeight * 0.85 );
+	
+	renderer.setViewport(left, top, width, height);
+	renderer.setScissor(left, top, width, height);
+	renderer.setScissorTest(true);
+	renderer.setClearColor(skycolor, 1);
+
 	renderer.render(scene, cameraInUse);
-	renderer.setClearColor (skycolor, 1);
+
+
+	/* top menu viewport */
+	left   = Math.floor( window.innerWidth  * 0    );
+	top    = Math.floor( window.innerHeight * 0    );
+	width  = Math.floor( window.innerWidth  * 1    );
+	height = Math.floor( window.innerHeight * 0.15 );
+	
+	renderer.setViewport(left, top, width, height);
+	renderer.setScissor( left, top, width, height);
+	renderer.setScissorTest(true);
+	renderer.setClearColor(0x000000, 1);
+	
+	renderer.render(scene, cameraScore);
 }
 
 function update() {
-	for(var i = 0; i < scene_elements.length; i++) {
-		elem = scene_elements[i];
-		elem.update(scene_elements);
+	if(isGameOver) {
+		pauseMaterial.visible = false;
+		gameOverMaterial.visible = true;
+		cameraInUse = cameraPause_Over;
+	}
+	else if(isPaused) {
+		pauseMaterial.visible = true;
+		gameOverMaterial.visible = false;
+		for(var i = 0; i < scene_elements.length; i++) {
+			elem = scene_elements[i];
+			elem.resetDelta();
+		}
+	}
+	else {
+		pauseMaterial.visible = false;
+		gameOverMaterial.visible = false;
+		for(var i = 0; i < scene_elements.length; i++) {
+			elem = scene_elements[i];
+			elem.update(scene_elements);
+		}
 	}
 }
 
@@ -324,4 +537,14 @@ function animate() {
 	requestAnimationFrame(animate);
 
 //	controls.update();
+}
+
+function loseLife() {
+	var lifeObj = currentLifes[currentLifes.length - 1];
+	currentLifes.pop();
+	scene.remove(lifeObj);
+
+	if(currentLifes.length == 0) {
+		isGameOver = true;
+	}
 }

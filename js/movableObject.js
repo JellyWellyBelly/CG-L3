@@ -25,6 +25,10 @@ class MovableObject {
 		return this._mesh;
 	}
 
+	resetDelta() {
+		var dt = this._clock.getDelta();
+	}
+
 	update() {
 	}
 
@@ -64,6 +68,7 @@ class MovableObject {
 		var mesh;
 		var color;
 		var material;
+		var texture;
 		var obj = this.getObj();
 
 		switch (materialType) {
@@ -86,7 +91,9 @@ class MovableObject {
 			if(obj.children[j].isMesh == true) {
 				mesh = obj.children[j];
 				color = mesh.material.color.clone();
+				texture = mesh.material.map;
 
+				material.map = texture;
 				material.color = color;
 				mesh.material = material.clone();
 			}
