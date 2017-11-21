@@ -37,10 +37,12 @@ class Orange extends MovableObject {
     this._spawnZ = z;
     this._visible = true;
     
-    this._meshList = []
+    this._meshList = [];
     this._meshList.push(mesh);
     this._meshList.push(mesh1);
     this._meshList.push(mesh2);
+
+    this._timeoutID;
   }
 
     update() {
@@ -69,7 +71,7 @@ class Orange extends MovableObject {
             this._visible = visible;
 
             var that = this;
-            setTimeout(function(){that.calc_spawn();}, Math.random() * 1000);
+            this._timeoutID = setTimeout(function(){that.calc_spawn();}, Math.random() * 1000);
         }
 
         if(visible) {
@@ -84,6 +86,15 @@ class Orange extends MovableObject {
 
 
     calc_spawn() {
+
+        if(isPaused) {
+            clearTimeout(this._timeoutID);
+
+            var that = this;
+            this._timeoutID = setTimeout(function(){that.calc_spawn();}, Math.random() * 1000);
+            return;
+        }
+
         var transMesh = this._mesh; 
         var x = this._spawnX;
         var y = this._spawnY;
